@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import * as AiComeAPI from '../../apis/AiComeAPI.js'
+import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom';
+
 import './css/home.css';
 import './css/bootstrap.min.css';
 
@@ -6,71 +10,39 @@ import Footer from '../../components/footer/footer.js'
 import NavBar from '../../components/navbar/navbar.js'
 
 export default class Home extends Component {
+  static contextTypes = {
+    store: PropTypes.object.isRequired
+  }
+
   constructor() {
     super()
     this.state = {
       currentPage: 1,
       storesPerPage: 4,
-      stores: [
-        {
-          name: "Loja 1",
-          bio: "Bio Loja 1",
-          image: "",
-          id: 1
-        },
-        {
-          name: "Loja 2",
-          bio: "Bio Loja 2",
-          image: "",
-          id: 2
-        },
-        {
-          name: "Loja 3",
-          bio: "Bio Loja 3",
-          image: "",
-          id: 3
-        },
-        {
-          name: "Loja 4",
-          bio: "Bio Loja 4",
-          image: "",
-          id: 4
-        },
-        {
-          name: "Loja 5",
-          bio: "Bio Loja 5",
-          image: "",
-          id: 5
-        },
-        {
-          name: "Loja 6",
-          bio: "Bio Loja 6",
-          image: "",
-          id: 6
-        },
-        {
-          name: "Loja 7",
-          bio: "Bio Loja 7",
-          image: "",
-          id: 7
-        },
-        {
-          name: "Loja 8",
-          bio: "Bio Loja 8",
-          image: "",
-          id: 8
-        }
-      ]
+      stores: []
     }
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick = (event, pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= this.state.stores.length / this.state.storesPerPage) {
+  handleClick = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= Math.ceil(this.state.stores.length / this.state.storesPerPage)) {
       this.setState({
         currentPage: Number(pageNumber)
       });
     }
+  }
+
+  componentWillMount() {
+    this.context.store.subscribe(() => {
+      this.setState({
+        ...this.state,
+        stores: this.context.store.getState().storesReducer.stores
+      })
+    })
+  }
+
+  componentDidMount() {
+    this.context.store.dispatch(AiComeAPI.load())
   }
 
   render() {
@@ -85,14 +57,12 @@ export default class Home extends Component {
         <div key={index}>
           <div className="row">
             <div className="col-md-7">
-              <a>
-                <img className="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="" />
-              </a>
+                <Link to={`store/${store.id}`}><img className="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="" /></Link>
             </div>
             <div className="col-md-5">
               <h3>{store.name}</h3>
               <p>{store.bio}</p>
-              <a className="btn bg-danger text-white">Visitar página da loja</a>
+              <Link className="btn bg-danger text-white" to={`store/${store.id}`}>Visitar página da loja</Link>
             </div>
           </div>
           <hr />
@@ -113,10 +83,8 @@ export default class Home extends Component {
         </li>
       );
     });
-
     return (
       <div className="Home">
-        {/*<!-- Navigation -->*/}
         <NavBar />
 
         {/*<!-- Page Content -->*/}
@@ -130,7 +98,7 @@ export default class Home extends Component {
 
           {/*<!-- Pagination -->*/}
           <ul className="pagination justify-content-center">
-            <li className="page-item" onClick={(event) => this.handleClick(event, this.state.currentPage - 1)}>
+            <li className="page-item" onClick={() => this.handleClick(this.state.currentPage - 1)}>
               <a className="page-link" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
                 <span className="sr-only">Previous</span>
@@ -139,7 +107,7 @@ export default class Home extends Component {
 
             {renderPageNumbers}
 
-            <li className="page-item" onClick={(event) => this.handleClick(event, this.state.currentPage + 1)}>
+            <li className="page-item" onClick={() => this.handleClick(this.state.currentPage + 1)}>
               <a className="page-link" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
                 <span className="sr-only">Next</span>
@@ -152,7 +120,7 @@ export default class Home extends Component {
           <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         </div>
-        <br/><br/>
+        <br /><br />
         <Footer />
       </div>
     );

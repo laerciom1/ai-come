@@ -5,6 +5,7 @@ import Home from './pages/home/Home.js';
 import Login from './pages/login/Login.js'
 import Index from './pages/index/Index.js'
 import Register from './pages/register/Register.js'
+import Store from './pages/store/Store.js'
 
 function estaAutenticado() {
     if(localStorage.getItem('USER_username')){
@@ -34,6 +35,7 @@ const Routes = () => {
             <Route path='/index' component={Index} />
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
+            <Route path='/store/:id' component={Store} />
         </Switch>
     )
 }

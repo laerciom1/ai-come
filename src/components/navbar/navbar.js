@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './navbar.css';
-import './bootstrap.min.css'
+import './bootstrap.min.css';
 
 export default class NavBar extends Component {
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-danger fixed-top">
                 <div className="container">
-                    <a className="navbar-brand logo text-white"><strong>Ai Come</strong></a>
+                    <Link to={'/'} className="navbar-brand logo text-white"><strong>Ai Come</strong></Link>
                     <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>

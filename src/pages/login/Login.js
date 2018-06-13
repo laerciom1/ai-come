@@ -59,7 +59,7 @@ export default class Login extends Component {
         <div className="limiter">
           <div className="container-login100 bg-danger">
             <div className="shadow wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-              <form className="login100-form validate-form" action="/" onSubmit={this.fazLogin}>
+              <form className="login100-form validate-form" onSubmit={this.fazLogin}>
                 <span className="login100-form-title p-b-49">Login</span>
                 <div className="wrap-input100 validate-input m-b-23" data-validate="Username is reauired">
                   <span className="label-input100">Usuário</span>
