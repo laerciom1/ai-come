@@ -5,7 +5,9 @@ import TabContent from 'rc-tabs/lib/SwipeableTabContent';
 import SwipeableInkTabBar from 'rc-tabs/lib/SwipeableInkTabBar';
 import './css/store.css';
 import PropTypes from 'prop-types'
-import * as AiComeAPI from '../../apis/AiComeAPI.js'
+
+import * as storesAPI from '../../reduxStore/stores/api.js'
+
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'
 
@@ -21,18 +23,16 @@ export default class Store extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.context.store.subscribe(() => {
       this.setState({
         ...this.state,
         store: this.context.store.getState().storesReducer.actualStore
       })
     })
-  }
 
-  componentDidMount() {
     let { id } = this.props.match.params
-    this.context.store.dispatch(AiComeAPI.loadMenu(id))
+    this.context.store.dispatch(storesAPI.loadStore(id))
   }
 
   render() {

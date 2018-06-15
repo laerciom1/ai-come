@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import * as AiComeAPI from '../../apis/AiComeAPI.js'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
+
+import * as storesAPI from '../../reduxStore/stores/api.js'
 
 import './css/home.css';
 import './css/bootstrap.min.css';
@@ -33,16 +34,17 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
+    
+  }
+
+  componentDidMount() {
     this.context.store.subscribe(() => {
       this.setState({
         ...this.state,
         stores: this.context.store.getState().storesReducer.stores
       })
     })
-  }
-
-  componentDidMount() {
-    this.context.store.dispatch(AiComeAPI.load())
+    this.context.store.dispatch(storesAPI.load())
   }
 
   render() {

@@ -7,16 +7,18 @@ import Index from './pages/index/Index.js'
 import Register from './pages/register/Register.js'
 import Store from './pages/store/Store.js'
 
-function estaAutenticado() {
-    if(localStorage.getItem('USER_username')){
-        return true
-    }
-    return false
-}
+
 
 class PrivateRoute extends Component {
+    estaAutenticado() {
+        if(localStorage.getItem('USER_username')){
+            return true
+        }
+        return false
+    }
+
     render() {
-        if(estaAutenticado()) {
+        if(this.estaAutenticado()) {
             return (
                 <Route { ...this.props } />
             )

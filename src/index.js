@@ -6,12 +6,12 @@ import { Provider } from 'react-redux'
 
 import Routes from './routes.js';
 
-import store from './store.js';
+import reduxStore from './reduxStore/reduxStore.js'
 
 
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={reduxStore}>
         <BrowserRouter>
             <Routes/>
         </BrowserRouter>
