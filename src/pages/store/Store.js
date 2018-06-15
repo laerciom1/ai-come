@@ -23,14 +23,16 @@ export default class Store extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.context.store.subscribe(() => {
       this.setState({
         ...this.state,
         store: this.context.store.getState().storesReducer.actualStore
       })
     })
+  }
 
+  componentDidMount() {
     let { id } = this.props.match.params
     this.context.store.dispatch(storesAPI.loadStore(id))
   }

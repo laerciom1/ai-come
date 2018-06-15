@@ -34,16 +34,15 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
-    
-  }
-
-  componentDidMount() {
     this.context.store.subscribe(() => {
       this.setState({
         ...this.state,
         stores: this.context.store.getState().storesReducer.stores
       })
     })
+  }
+
+  componentDidMount() {
     this.context.store.dispatch(storesAPI.load())
   }
 
