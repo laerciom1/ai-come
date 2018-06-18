@@ -3,6 +3,10 @@ const menus = [
         store_id: 1,
         borders: [
             {
+                name: "Sem borda",
+                value: 0.00
+            },
+            {
                 name: "Cheddar",
                 value: 5.00
             },
@@ -33,7 +37,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -51,6 +55,10 @@ const menus = [
     {
         store_id: 2,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -82,7 +90,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -100,6 +108,10 @@ const menus = [
     {
         store_id: 3,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -131,7 +143,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -149,6 +161,10 @@ const menus = [
     {
         store_id: 4,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -180,7 +196,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -198,6 +214,10 @@ const menus = [
     {
         store_id: 5,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -229,7 +249,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -247,6 +267,10 @@ const menus = [
     {
         store_id: 6,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -278,7 +302,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00
@@ -296,6 +320,10 @@ const menus = [
     {
         store_id: 7,
         borders: [
+            {
+                name: "Sem borda",
+                value: 0.00
+            },
             {
                 name: "Cheddar",
                 value: 5.00
@@ -327,7 +355,7 @@ const menus = [
                 xl_value: 50.00,
             }
         ],
-        pasta: [
+        pastas: [
             {
                 name: "Tradicional",
                 value: 0.00

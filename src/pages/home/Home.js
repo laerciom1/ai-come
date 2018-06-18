@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 
 import * as storesAPI from '../../reduxStore/stores/api.js'
 
-import './css/home.css';
-import './css/bootstrap.min.css';
+import './home.css';
 
 import Footer from '../../components/footer/footer.js'
 import NavBar from '../../components/navbar/navbar.js'
@@ -26,7 +25,9 @@ export default class Home extends Component {
   }
 
   handleClick = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= Math.ceil(this.state.stores.length / this.state.storesPerPage)) {
+    if (pageNumber > 0 &&
+      pageNumber <= Math.ceil(this.state.stores.length / this.state.storesPerPage) &&
+      pageNumber !== this.state.currentPage) {
       this.setState({
         currentPage: Number(pageNumber)
       });
@@ -58,7 +59,7 @@ export default class Home extends Component {
         <div key={index}>
           <div className="row">
             <div className="col-md-7">
-                <Link to={`store/${store.id}`}><img className="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="" /></Link>
+              <Link to={`store/${store.id}`}><img className="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="" /></Link>
             </div>
             <div className="col-md-5">
               <h3>{store.name}</h3>
@@ -79,7 +80,7 @@ export default class Home extends Component {
 
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li className="page-item" key={number} id={number} onClick={(event) => this.handleClick(event, number)}>
+        <li className="page-item" key={number} id={number} onClick={(event) => this.handleClick(number)}>
           <a className="page-link">{number}</a>
         </li>
       );
@@ -115,14 +116,15 @@ export default class Home extends Component {
               </a>
             </li>
           </ul>
-
-          {/*<!-- Bootstrap core JavaScript -->*/}
-          <script src="vendor/jquery/jquery.min.js"></script>
-          <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
         </div>
         <br /><br />
         <Footer />
+        {/* Bootstrap core CSS */}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+        {/* Bootstrap core JavaScript */}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
       </div>
     );
   }
