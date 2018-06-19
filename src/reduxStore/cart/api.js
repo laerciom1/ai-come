@@ -11,16 +11,11 @@ export function add(item) {
   const newItem = {
     ...item,
     qt: 1,
-    totalValue: borderValue + pastaValue + tasteValue
+    value: borderValue + pastaValue + tasteValue,
+    totalValue: (borderValue + pastaValue + tasteValue) * 1
   }
   return (dispatch) => {
     dispatch({ type: 'ADD_ITEM', item: newItem })
-  }
-}
-
-export function remove(item) {
-  return (dispatch) => {
-    dispatch({ type: 'REMOVE_ITEM', item: item })
   }
 }
 
@@ -36,14 +31,8 @@ export function changeQt(id, qt) {
   }
 }
 
-export function finalize(item) {
+export function finish() {
   return (dispatch) => {
-    dispatch({ type: 'FINALIZE' })
-  }
-}
-
-export function getSubtotal() {
-  return (dispatch) => {
-    dispatch({ type: 'LOAD' })
+    dispatch({ type: 'FINISH' })
   }
 }

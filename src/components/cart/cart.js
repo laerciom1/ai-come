@@ -28,21 +28,29 @@ export default class Cart extends Component {
     this.context.store.dispatch(cartAPI.load())
   }
 
+  changeQt (itemId, qt) {
+    this.context.store.dispatch(cartAPI.changeQt(itemId, qt))
+  }
+
+  finish () {
+    this.context.store.dispatch(cartAPI.finish())
+  }
+
   renderItens = () => {
     if (this.state.cart.itens) {
       return (
-        this.state.cart.itens.map((item, index) =>
-          <div key={index} className="row">
+        this.state.cart.itens.map((item) =>
+          <div key={item.id} className="row">
             <div className="col-6 text-truncate">
               <span>{item.title}</span>
             </div>
             <div className="col-3 pl-0 pr-1">
-              <span>R${parseFloat(item.totalValue).toFixed(2)}</span>
+              <span>R${parseFloat(item.value).toFixed(2)}</span>
             </div>
             <div style={{ display: "block", width: "auto", height: "inherit" }}>
-              <i className="fas fa-minus-circle text-danger"></i>
+              <i className="fas fa-minus-circle text-danger" onClick={() => this.changeQt(item.id, item.qt-1)}></i>
               <span style={{ display: "inline-block" }}>&nbsp;{item.qt}&nbsp;</span>
-              <i className="fas fa-plus-circle text-success"></i>
+              <i className="fas fa-plus-circle text-success" onClick={() => this.changeQt(item.id, item.qt+1)}></i>
             </div>
           </div>
         )
@@ -53,7 +61,6 @@ export default class Cart extends Component {
   }
 
   renderResume = () => {
-    console.log(this.state)
     return (
       <div>
         <div className="row">
@@ -99,13 +106,14 @@ export default class Cart extends Component {
     return (
       <div className="row align-items-center py-3">
         <div className="col-md-12">
-          <a className="nav-link btn bg-danger text-white" onClick={cartAPI.finalize()}>Fechar pedido</a>
+          <a className="nav-link btn bg-danger text-white" onClick={() => this.finish()}>Fechar pedido</a>
         </div>
       </div>
     )
   }
 
   render() {
+    console.log(this.state)
     const itens = this.renderItens()
     const resume = this.renderResume()
     const finalize = this.renderFinalize()

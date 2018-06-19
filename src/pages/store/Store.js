@@ -187,8 +187,6 @@ export default class Store extends Component {
         title: taste.name
       }
       this.context.store.dispatch(cartAPI.add(item))
-    } else {
-
     }
   }
 
