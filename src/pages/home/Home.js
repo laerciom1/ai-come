@@ -66,13 +66,13 @@ class Home extends Component {
 
     // Logic for displaying page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(this.props.stores.length / this.props.storesPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(this.props.stores.length / this.state.storesPerPage); i++) {
       pageNumbers.push(i);
     }
 
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li className="page-item" key={number} id={number} onClick={(event) => this.handleClick(number)}>
+        <li className="page-item" key={number} id={number} onClick={() => this.handleClick(number)}>
           <a className="page-link">{number}</a>
         </li>
       );

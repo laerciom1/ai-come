@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import * as cartActions from '../../reduxStore/cart/actions'
+import * as cartActions from '../../reduxStore/cart/actions.js'
+import * as ordersActions from '../../reduxStore/orders/actions.js'
 import emptyCart from '../../assets/empty-cart/cart-empty.png'
 
 class Cart extends Component {
@@ -17,16 +19,18 @@ class Cart extends Component {
         this.props.cart.itens.map((item) =>
           <div key={item.id} className="row">
             <div className="col-6 text-truncate">
-              <span>{item.title}</span><br/>
-              <span style={{"fontSize":"11px"}}>{item.size === "xl"  ? "Gigante" :
-                                            item.size === "l"   ? "Grande" :
-                                            item.size === "m"   ? "Média" : 
-                                                                  "Pequena"}</span><br/>
-              <span style={{"fontSize":"11px"}}>Massa: {item.pasta.name}</span><br/>
-              <span style={{"fontSize":"11px"}}>Borda: {item.border.name}</span><br/>
+              <span>{item.title}</span><br />
+              <span style={{ "fontSize": "11px" }}>
+                {item.size === "xl" ? "Gigante" :
+                  item.size === "l" ? "Grande" :
+                    item.size === "m" ? "Média" :
+                      "Pequena"}
+              </span><br />
+              <span style={{ "fontSize": "11px" }}>Massa: {item.pasta.name}</span><br />
+              <span style={{ "fontSize": "11px" }}>Borda: {item.border.name}</span><br />
             </div>
             <div className="col-3 pl-0 pr-1">
-              <span>R${parseFloat(item.value).toFixed(2)}</span>
+              <span>R${parseFloat(item.totalValue).toFixed(2)}</span>
             </div>
             <div style={{ display: "block", width: "auto", height: "inherit" }}>
               <i className="fas fa-minus-circle text-danger" onClick={() => this.props.changeQtCart(item.id, item.qt - 1)}></i>
@@ -87,10 +91,15 @@ class Cart extends Component {
     return (
       <div className="row align-items-center py-3">
         <div className="col-md-12">
-          <a className="nav-link btn bg-danger text-white" onClick={() => this.props.finalizeCart()}>Fechar pedido</a>
+        <Link to={"/orders"} className="nav-link btn bg-danger text-white" onClick={() => this.finalize(this.props.cart)}>Fechar pedido</Link>
         </div>
       </div>
     )
+  }
+
+  finalize = (cart) => {
+    this.props.addOrder(cart)
+    this.props.finalizeCart()
   }
 
   render() {
@@ -170,7 +179,8 @@ const mapDispatchToProps = dispatch => {
   return {
     loadCart: () => dispatch(cartActions.loadCart()),
     changeQtCart: (itemId, qt) => dispatch(cartActions.changeQtCart(itemId, qt)),
-    finalizeCart: () => dispatch(cartActions.finalizeCart())
+    finalizeCart: () => dispatch(cartActions.finalizeCart()),
+    addOrder: (cart) => dispatch(ordersActions.addOrder(cart))
   }
 }
 

@@ -9,7 +9,7 @@ const initialState = {
 const updateCartTotalValues = (newCart) => {
   var subTotal = 0;
   for (let it of newCart.itens) {
-    subTotal += (it.value * it.qt)
+    subTotal += (it.totalValue * it.qt)
   }
 
   newCart.subTotal = subTotal
@@ -25,17 +25,16 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_ITEM_CART:
       if (state.cart.storeId) {
-        if (action.item.storeId === state.cart.storeId) {
+        if (action.storeId === state.cart.storeId) {
           const actualItemId = state.cart.actualItemId + 1
-          action.item = {
-            ...action.item,
+          action.newItem = {
+            ...action.newItem,
             id: actualItemId
           }
 
           const newCart = {
             ...state.cart,
             actualItemId: actualItemId,
-            subTotal: action.item.totalValue,
             deliveryCost: 10,
             estimatedTime: "30-40 min"
           }
@@ -46,15 +45,18 @@ const reducer = (state = initialState, action) => {
             newCart.itens = []
           }
 
-          const item = newCart.itens.find(it => action.item.size === it.size
-            && action.item.border.name === it.border.name
-            && action.item.pasta.name === it.pasta.name
-            && action.item.taste.name === it.taste.name);
-
+          const item = newCart.itens.find(it => action.newItem.size === it.size
+            && action.newItem.border.name === it.border.name
+            && action.newItem.pasta.name === it.pasta.name
+            && action.newItem.taste.name === it.taste.name);
           if (item) {
             item.qt = item.qt + 1;
           } else {
-            newCart.itens = newCart.itens.concat(action.item);
+            action.newItem = {
+              ...action.newItem,
+              qt: 1
+            }
+            newCart.itens = newCart.itens.concat(action.newItem);
           }
 
           updateCartTotalValues(newCart);
@@ -68,36 +70,26 @@ const reducer = (state = initialState, action) => {
         }
       } else { // primeiro item
         const actualItemId = state.cart.actualItemId + 1
-        action.item = {
-          ...action.item,
+        action.newItem = {
+          ...action.newItem,
           id: actualItemId
         }
 
         const newCart = {
           ...state.cart,
-          storeId: action.item.storeId,
+          storeId: action.storeId,
+          storeName: action.storeName,
           actualItemId: actualItemId,
-          subTotal: action.item.totalValue,
+          subTotal: action.newItem.totalValue,
           deliveryCost: 10,
           estimatedTime: "30-40 min"
         }
 
-        if (state.cart.itens) {
-          newCart.itens = [...state.cart.itens]
-        } else {
-          newCart.itens = []
+        action.newItem = {
+          ...action.newItem,
+          qt:1
         }
-
-        const item = newCart.itens.find(it => action.item.size === it.size
-          && action.item.border.name === it.border.name
-          && action.item.pasta.name === it.pasta.name
-          && action.item.taste.name === it.taste.name);
-
-        if (item) {
-          item.qt = item.qt + 1;
-        } else {
-          newCart.itens = newCart.itens.concat(action.item);
-        }
+        newCart.itens = [action.newItem]
 
         updateCartTotalValues(newCart);
 

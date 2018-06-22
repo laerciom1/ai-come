@@ -172,6 +172,7 @@ class Store extends Component {
     if(this.state.selectedSize !== '' && this.state.selectedPasta !== '' && this.state.selectedBorder !== '') {
       const item = {
         storeId: this.props.store.id,
+        storeName: this.props.store.name,
         size: this.state.selectedSize,
         pasta: JSON.parse(this.state.selectedPasta),
         border: JSON.parse(this.state.selectedBorder),
