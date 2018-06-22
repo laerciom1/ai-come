@@ -7,7 +7,7 @@ export const loadCart = () => {
 }
 
 export const addItemCart = (item) => {
-  const tasteValue = item.size === "xl" ? item.taste.xl_value : (item.size === "l" ? item.taste.l_value : (item.size === "m" ? item.taste.m_value : item.taste.s_value))
+  const tasteValue = item.taste[item.size.identifier + 'Value']
   const borderValue = item.border.value
   const pastaValue = item.pasta.value
   const newItem = {

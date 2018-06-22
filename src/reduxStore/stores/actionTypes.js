@@ -1,2 +1,2 @@
-export const LOAD_STORES = 'LOAD_STORES';
-export const LOAD_STORE = 'LOAD_STORE';
+export const SET_STORES = 'SET_STORES';
+export const SET_ACTUAL_STORE = 'SET_ACTUAL_STORE';

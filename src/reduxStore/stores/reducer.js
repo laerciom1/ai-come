@@ -2,25 +2,41 @@ import * as actionTypes from './actionTypes'
 
 const initialState = {
   stores: [],
-  actualStore: {}
+  actualStore: {
+    name: '',
+    menu: {
+      sizes: [],
+      pastas: [],
+      borders: [],
+      tastes: []
+    }
+  }
 }
+
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionTypes.LOAD_STORES:
+
+    case actionTypes.SET_STORES: {
       return {
         ...state,
         stores: action.stores
       }
+    }
 
-    case actionTypes.LOAD_STORE:
+    case actionTypes.SET_ACTUAL_STORE: {
       return {
         ...state,
-        actualStore: action.actualStore
+        actualStore: {
+          ...state.actualStore,
+          ...action.store
+        }
       }
-      
-    default:
+    }
+
+    default: {
       return state
+    }
   }
 }
 

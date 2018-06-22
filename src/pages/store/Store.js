@@ -25,9 +25,9 @@ class Store extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     let { id } = this.props.match.params
-    this.props.loadStore(id)
+    this.props.loadActualStore(id)
   }
 
   renderSizes = () => {
@@ -39,26 +39,13 @@ class Store extends Component {
               <div className="card-block px-3">
                 <br />
                 <h4 className="card-title">1. Tipo / Tamanho da pizza</h4>
-                <label className="radio-inline col-3 opt">
-                  <input  type="radio" name="size" value="xl"
+                {this.props.store.menu.sizes.map( (size, index) => {
+                  return (<label key={index} className="radio-inline col-3 opt">
+                    <input type="radio" name="size" value={JSON.stringify(size)}
                           onChange={(event) => this.setState({selectedSize: event.target.value})}/>
-                           Gigante (10 fatias)
-                </label>
-                <label className="radio-inline col-3 opt">
-                  <input  type="radio" name="size" value="l"
-                          onChange={(event) => this.setState({selectedSize: event.target.value})}/>
-                           Grande (8 fatias)
-                </label>
-                <label className="radio-inline col-3 opt">
-                  <input  type="radio" name="size" value="m"
-                          onChange={(event) => this.setState({selectedSize: event.target.value})}/>
-                           Média (6 fatias)
-                </label>
-                <label className="radio-inline col-3 opt">
-                  <input  type="radio" name="size" value="s"
-                          onChange={(event) => this.setState({selectedSize: event.target.value})}/>
-                           Pequena (4 fatias)
-                </label>
+                          {size.name}
+                  </label>)  
+                } )}
                 <br /><br />
               </div>
             </div>
@@ -148,7 +135,7 @@ class Store extends Component {
   }
 
   renderMenu = () => {
-    if (this.props.store.menu) {
+    if (this.props.store && this.props.store.menu) {
       return (
         <div className="col-md-9">
           {this.renderSizes()}
@@ -172,7 +159,7 @@ class Store extends Component {
     if(this.state.selectedSize !== '' && this.state.selectedPasta !== '' && this.state.selectedBorder !== '') {
       const item = {
         storeId: this.props.store.id,
-        size: this.state.selectedSize,
+        size: JSON.parse(this.state.selectedSize),
         pasta: JSON.parse(this.state.selectedPasta),
         border: JSON.parse(this.state.selectedBorder),
         taste: taste,
@@ -191,6 +178,7 @@ class Store extends Component {
         <div className="container">
 
           {/* Store Card*/}
+          {(this.props.store) ? 
           <section>
             <div className="container py-3">
               <div className="card">
@@ -209,15 +197,16 @@ class Store extends Component {
                 </div>
               </div>
             </div>
-          </section>
+          </section> : null}
 
+          {(this.props.store) ? 
           <div className="container">
             <div className="row">
               {/* Menu*/}
               {menuContent}
               <Cart />
             </div>
-          </div>
+          </div> : null}
 
           <Footer />
           <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
@@ -237,7 +226,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadStore: (storeId) => dispatch(storesActions.loadStore(storeId)),
+    loadActualStore: (storeId) => dispatch(storesActions.loadActualStore(storeId)),
     addItemCart: (item) => dispatch(cartActions.addItemCart(item))
   }
 }

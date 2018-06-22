@@ -1,23 +1,43 @@
-import stores from './seed.js'
-import menus from '../menus/seed.js'
+import * as config from '../../config'
 import * as actionTypes from './actionTypes'
+import axios from 'axios'
 
-export const load = () => {
+export const setStores = (stores) => {
   return {
-    type: actionTypes.LOAD_STORES,
+    type: actionTypes.SET_STORES,
     stores: stores
   }
 }
 
-export const loadStore = (id) => {
-  const store = stores.find((s) => Number(s.id) === Number(id))
-  const menu = menus.find((m) => Number(m.store_id) === Number(id))
-  const actualStore = {
-    ...store,
-    menu: menu
-  }
+export const setActualStore = (store) => {
   return {
-    type: actionTypes.LOAD_STORE,
-    actualStore: actualStore
+    type: actionTypes.SET_ACTUAL_STORE,
+    store: store
   }
 }
+
+export const loadActualStore = (storeId) => {
+  return (dispatch) => {
+    axios.get(config.API_URL + '/stores/' + storeId + '?access_token=' + config.ACCESS_TOKEN)
+    .then(response => {
+      console.log(response.data);
+      dispatch(setActualStore(response.data));
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+}
+
+export const loadStores = () => {
+  return dispatch => {
+    axios.get(config.API_URL + '/stores' + '?access_token=' + config.ACCESS_TOKEN)
+    .then(response => {
+      dispatch(setStores(response.data));
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  }
+}
+

@@ -35,8 +35,8 @@ class Home extends Component {
     }
   }
 
-  componentWillMount() {
-    this.props.load()
+  componentDidMount() {
+    this.props.onInitStores();
   }
 
   render() {
@@ -130,7 +130,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    load: () => dispatch(storesActions.load())
+    onInitStores: () => dispatch(storesActions.loadStores())
   }
 }
 
