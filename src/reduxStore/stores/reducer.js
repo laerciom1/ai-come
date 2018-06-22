@@ -1,12 +1,19 @@
-export default function (state = { stores: [], actualStore: {} }, action) {
+import * as actionTypes from './actionTypes'
+
+const initialState = {
+  stores: [],
+  actualStore: {}
+}
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOAD_STORES':
+    case actionTypes.LOAD_STORES:
       return {
         ...state,
         stores: action.stores
       }
 
-    case 'LOAD_STORE':
+    case actionTypes.LOAD_STORE:
       return {
         ...state,
         actualStore: action.actualStore
@@ -16,3 +23,5 @@ export default function (state = { stores: [], actualStore: {} }, action) {
       return state
   }
 }
+
+export default reducer

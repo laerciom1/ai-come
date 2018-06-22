@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import * as storesAPI from '../../reduxStore/stores/api.js'
-import * as cartAPI from '../../reduxStore/cart/actions'
+import * as storesActions from '../../reduxStore/stores/actions.js'
+import * as cartActions from '../../reduxStore/cart/actions.js'
 
-import NavBar from '../../components/Navbar/Navbar'
-import Footer from '../../components/Footer/Footer'
-import Cart from '../../components/Cart/Cart'
+import NavBar from '../../components/navbar/navbar.js'
+import Footer from '../../components/footer/footer.js'
+import Cart from '../../components/cart/cart.js'
 
 import './store.css';
 
-export default class Store extends Component {
+class Store extends Component {
   static contextTypes = {
     store: PropTypes.object.isRequired
   }
@@ -18,7 +19,6 @@ export default class Store extends Component {
   constructor() {
     super()
     this.state = {
-      store: {},
       selectedSize: '',
       selectedPasta: {},
       selectedBorder: {}
@@ -26,17 +26,8 @@ export default class Store extends Component {
   }
 
   componentWillMount() {
-    this.context.store.subscribe(() => {
-      this.setState({
-        ...this.state,
-        store: this.context.store.getState().storesReducer.actualStore
-      })
-    })
-  }
-
-  componentDidMount() {
     let { id } = this.props.match.params
-    this.context.store.dispatch(storesAPI.loadStore(id))
+    this.props.loadStore(id)
   }
 
   renderSizes = () => {
@@ -86,7 +77,7 @@ export default class Store extends Component {
               <div className="card-block px-3">
                 <br />
                 <h4 className="card-title">2. Tipo da massa </h4>
-                {this.state.store.menu.pastas.map((pasta, index) =>
+                {this.props.store.menu.pastas.map((pasta, index) =>
                   <label key={index} className="radio-inline col-4 opt">
                     <input  type="radio" name="pasta" value={JSON.stringify(pasta)}
                             onChange={(event) => this.setState({selectedPasta: event.target.value})}/>
@@ -111,7 +102,7 @@ export default class Store extends Component {
               <div className="card-block px-3">
                 <br />
                 <h4 className="card-title">3. Bordas recheadas</h4>
-                {this.state.store.menu.borders.map((border, index) =>
+                {this.props.store.menu.borders.map((border, index) =>
                   <label key={index} className="radio-inline col-3 opt">
                   <input  type="radio" name="border" value={JSON.stringify(border)}
                           onChange={(event) => this.setState({selectedBorder: event.target.value})}/> {border.name} (R${parseFloat(border.value).toFixed(2)})</label>
@@ -134,7 +125,7 @@ export default class Store extends Component {
               <div className="card-block px-3">
                 <br />
                 <h4 className="card-title">4. Escolha o sabor</h4>
-                {this.state.store.menu.tastes.map((taste, index) =>
+                {this.props.store.menu.tastes.map((taste, index) =>
                   <li key={index}>
                     <div className="row">
                       <div className="col-md-10">
@@ -157,7 +148,7 @@ export default class Store extends Component {
   }
 
   renderMenu = () => {
-    if (this.state.store.menu) {
+    if (this.props.store.menu) {
       return (
         <div className="col-md-9">
           {this.renderSizes()}
@@ -186,7 +177,7 @@ export default class Store extends Component {
         taste: taste,
         title: taste.name
       }
-      this.context.store.dispatch(cartAPI.addItemCart(item))
+      this.context.store.dispatch(cartActions.addItemCart(item))
     }
   }
 
@@ -209,8 +200,8 @@ export default class Store extends Component {
                   <div className="col-md-9 px-3">
                     <div className="card-block px-3">
                       <br />
-                      <h4 className="card-title">{this.state.store.name}</h4>
-                      <p className="card-text">{this.state.store.bio}</p>
+                      <h4 className="card-title">{this.props.store.name}</h4>
+                      <p className="card-text">{this.props.store.bio}</p>
                       <a className="btn btn-danger text-white">+ Informações</a>
                     </div>
                   </div>
@@ -236,3 +227,17 @@ export default class Store extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    store: state.storesReducer.actualStore
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadStore: (storeId) => dispatch(storesActions.loadStore(storeId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Store);

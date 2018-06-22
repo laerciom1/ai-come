@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import * as cartActions from '../../reduxStore/cart/actions'
+import emptyCart from '../../assets/empty-cart/cart-empty.png'
 
 class Cart extends Component {
 
@@ -22,9 +23,9 @@ class Cart extends Component {
               <span>R${parseFloat(item.value).toFixed(2)}</span>
             </div>
             <div style={{ display: "block", width: "auto", height: "inherit" }}>
-              <i className="fas fa-minus-circle text-danger" onClick={() => this.props.changeQtCart(item.id, item.qt-1)}></i>
+              <i className="fas fa-minus-circle text-danger" onClick={() => this.props.changeQtCart(item.id, item.qt - 1)}></i>
               <span style={{ display: "inline-block" }}>&nbsp;{item.qt}&nbsp;</span>
-              <i className="fas fa-plus-circle text-success" onClick={() => this.props.changeQtCart(item.id, item.qt+1)}></i>
+              <i className="fas fa-plus-circle text-success" onClick={() => this.props.changeQtCart(item.id, item.qt + 1)}></i>
             </div>
           </div>
         )
@@ -121,7 +122,23 @@ class Cart extends Component {
                 </div>
                 :
                 <div className="card-block py-1 px-1">
-                  <label>EMPTY</label>
+                  <div className="row py-3">
+                    <div className="col-md-12 text-center">
+                      <label>
+                        <img src={emptyCart} alt="emptyCard" />
+                      </label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12 text-center">
+                      <label><strong>Carrinho Vazio</strong></label>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12 text-center">
+                      <label>Que tal achar algo gostoso para comer?</label>
+                    </div>
+                  </div>
                 </div>
               }
             </div>

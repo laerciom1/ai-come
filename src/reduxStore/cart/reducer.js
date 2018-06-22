@@ -91,7 +91,7 @@ const reducer = (state = initialState, action) => {
         const newCart = {
           ...state.cart,
           itens: state.cart.itens.map(
-            (it, i) => action.itemId == it.id ? {...it, qt: action.qt, totalValue: it.value * action.qt } : it 
+            (it, i) => action.itemId === it.id ? {...it, qt: action.qt, totalValue: it.value * action.qt } : it 
           )
         }
 

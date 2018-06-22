@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 
-import * as storesAPI from '../../reduxStore/stores/api.js'
+import * as storesActions from '../../reduxStore/stores/actions.js'
 
 import './home.css';
 
-import Footer from '../../components/Footer/Footer'
-import NavBar from '../../components/Navbar/Navbar'
+import Footer from '../../components/footer/footer.js'
+import NavBar from '../../components/navbar/navbar.js'
 
-export default class Home extends Component {
+class Home extends Component {
+
   static contextTypes = {
     store: PropTypes.object.isRequired
   }
@@ -18,8 +20,7 @@ export default class Home extends Component {
     super()
     this.state = {
       currentPage: 1,
-      storesPerPage: 4,
-      stores: []
+      storesPerPage: 4
     }
     this.handleClick = this.handleClick.bind(this);
   }
@@ -35,24 +36,15 @@ export default class Home extends Component {
   }
 
   componentWillMount() {
-    this.context.store.subscribe(() => {
-      this.setState({
-        ...this.state,
-        stores: this.context.store.getState().storesReducer.stores
-      })
-    })
-  }
-
-  componentDidMount() {
-    this.context.store.dispatch(storesAPI.load())
+    this.props.load()
   }
 
   render() {
-    const { stores, currentPage, storesPerPage } = this.state
+    const { currentPage, storesPerPage } = this.state
     // Logic for displaying stores
     const indexOfLastStore = currentPage * storesPerPage;
     const indexOfFirstStore = indexOfLastStore - storesPerPage;
-    const currentStores = stores.slice(indexOfFirstStore, indexOfLastStore);
+    const currentStores = this.props.stores.slice(indexOfFirstStore, indexOfLastStore);
 
     const renderStores = currentStores.map((store, index) => {
       return (
@@ -74,7 +66,7 @@ export default class Home extends Component {
 
     // Logic for displaying page numbers
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(this.state.stores.length / this.state.storesPerPage); i++) {
+    for (let i = 1; i <= Math.ceil(this.props.stores.length / this.props.storesPerPage); i++) {
       pageNumbers.push(i);
     }
 
@@ -129,3 +121,17 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    stores: state.storesReducer.stores
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    load: () => dispatch(storesActions.load())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
