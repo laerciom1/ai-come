@@ -14,8 +14,8 @@ import './css/bootstrap.min.css'
 import './css/index.css';
 import './css/bootstrap.min.css';
 
-import Footer from '../../components/footer/footer.js'
-import NavBar from '../../components/navbar/navbar.js'
+import Footer from '../../components/Footer/Footer'
+import NavBar from '../../components/Navbar/Navbar'
 
 export default class Index extends Component {
   render() {

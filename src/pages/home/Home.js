@@ -6,8 +6,8 @@ import * as storesAPI from '../../reduxStore/stores/api.js'
 
 import './home.css';
 
-import Footer from '../../components/footer/footer.js'
-import NavBar from '../../components/navbar/navbar.js'
+import Footer from '../../components/Footer/Footer'
+import NavBar from '../../components/Navbar/Navbar'
 
 export default class Home extends Component {
   static contextTypes = {

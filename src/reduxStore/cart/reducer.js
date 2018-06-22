@@ -1,125 +1,120 @@
-export default function (state = { cart: { actualItemId: 0 } }, action) {
+import * as actionTypes from './actionTypes'
+
+const initialState = {
+  cart: {
+    actualItemId: 0
+  }
+}
+
+const updateCartTotalValues = (newCart) => {
+  var subTotal = 0;
+  for(let it of newCart.itens){
+    subTotal += (it.value * it.qt)
+  }
+
+  newCart.subTotal = subTotal
+  newCart.total = subTotal + newCart.deliveryCost
+}
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOAD':
+    
+    case actionTypes.LOAD_CART: {
       return state
-
-    case 'ADD_ITEM':
-      if (true) {
-        const actualItemId = state.cart.actualItemId + 1
-        action.item = {
-          ...action.item,
-          id: state.cart.actualItemId
-        }
-        if (state.cart.itens) {
-          const item = state.cart.itens.find((i) =>
-            action.item.size === i.size &&
-            action.item.border.name === i.border.name &&
-            action.item.pasta.name === i.pasta.name)
-
-          if (item) {
-            const subTotal = state.cart.subTotal - item.totalValue + (item.value * (item.qt+1))
-            const total = state.cart.total - item.totalValue + (item.value * (item.qt+1))
-            const itens = state.cart.itens.filter((i) => {
-              if (i !== item) {
-                return i
-              }
-              i.qt = i.qt+1
-              i.totalValue = i.value * i.qt
-              return i
-            })
-            return {
-              cart: {
-                ...state.cart,
-                subTotal: subTotal,
-                deliveryCost: 10,
-                total: total,
-                estimatedTime: "30-40 min",
-                itens: itens
-              }
-            }
-          } else {
-            const subTotal = state.cart.subTotal + action.item.totalValue
-            const total = state.cart.total + action.item.totalValue
-            const itens = state.cart.itens
-            state.cart = {
-              ...state.cart,
-              actualItemId: actualItemId,
-              subTotal: subTotal,
-              deliveryCost: 10,
-              total: total,
-              estimatedTime: "30-40 min",
-              itens: [...itens, action.item]
-            }
-          }
-        } else {
-          state.cart = {
-            ...state.cart,
-            actualItemId: actualItemId,
-            subTotal: action.item.totalValue,
-            deliveryCost: 10,
-            total: action.item.totalValue + 10,
-            estimatedTime: "30-40 min",
-            itens: [action.item]
-          }
-        }
+    }
+    case actionTypes.ADD_ITEM_CART: {
+      const actualItemId = state.cart.actualItemId + 1
+      action.item = {
+        ...action.item,
+        id: actualItemId
       }
-      return state
 
-    case 'REMOVE_ITEM':
-      if (true) {
-        if (state.cart.itens.length === 1) {
-          return {
-            cart: { actualItemId: 0 }
-          }
-        } else {
-          const item = state.cart.itens.find((i) => i.id === action.itemId)
-          const subTotal = state.cart.subTotal - item.totalValue
-          const total = state.cart.total - item.totalValue
-          return {
-            cart: {
-              ...state.cart,
-              subTotal: subTotal,
-              total: total,
-              itens: state.cart.itens.filter((i) => i.id !== action.itemId)
-            }
-          }
-        }
+      const newCart = {
+        ...state.cart,
+        actualItemId: actualItemId, 
+        subTotal: action.item.totalValue,
+        deliveryCost: 10,
+        estimatedTime: "30-40 min"
       }
-      break
 
-    case 'CHANGE_QT':
-      if (true) {
-        const item = state.cart.itens.find((i) => i.id === action.itemId)
-        const subTotal = state.cart.subTotal - item.totalValue + (item.value * action.qt)
-        const total = state.cart.total - item.totalValue + (item.value * action.qt)
-        const itens = state.cart.itens.filter((i) => {
-          if (i.id !== action.itemId) {
-            return i
-          }
-          i.qt = action.qt
-          i.totalValue = i.value * action.qt
-          return i
-        })
+      if (state.cart.itens) {
+        newCart.itens = [...state.cart.itens]
+      } else {
+        newCart.itens = []
+      }        
+
+      const item = newCart.itens.find(it => action.item.size === it.size 
+        && action.item.border.name === it.border.name 
+        && action.item.pasta.name === it.pasta.name
+        && action.item.taste.name === it.taste.name);
+
+      if(item){
+        item.qt = item.qt + 1;
+      } else {
+        newCart.itens = newCart.itens.concat(action.item);
+      } 
+      
+      updateCartTotalValues(newCart);
+      
+      return {
+        ...state,
+        cart: newCart
+      }
+    } 
+    case actionTypes.REMOVE_ITEM_CART: {
+      if(!state.cart.itens){
+        return state;
+      }
+
+      if(state.cart.itens.length === 1){
         return {
-          cart: {
-            ...state.cart,
-            subTotal: subTotal,
-            deliveryCost: 10,
-            total: total,
-            estimatedTime: "30-40 min",
-            itens: itens
-          }
+          ...state,
+          cart: { actualItemId: 0}
         }
       }
-      break
 
-    case 'FINISH':
+      const newCart = {
+        ...state.cart,
+        itens: state.cart.itens.filter((i) => i.id !== action.itemId)
+      }
+
+      updateCartTotalValues(newCart);
+
+      return {
+        ...state,
+        cart: newCart
+      }
+    }
+    case actionTypes.CHANGE_QT_CART: {
+      const item = state.cart.itens.find((i) => i.id === action.itemId);
+      if(item){
+        const newCart = {
+          ...state.cart,
+          itens: state.cart.itens.map(
+            (it, i) => action.itemId == it.id ? {...it, qt: action.qt, totalValue: it.value * action.qt } : it 
+          )
+        }
+
+        updateCartTotalValues(newCart);
+
+        return {
+          ...state,
+          cart: newCart
+        }
+
+      }
+      return state
+    }
+    case actionTypes.FINALIZE_CART: {
       return {
         ...state,
         cart: { actualItemId: 0 }
       }
-
-    default:
+    }
+    default: {
       return state
+    }
   }
 }
+
+export default reducer;

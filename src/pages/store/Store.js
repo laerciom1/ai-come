@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 
 import * as storesAPI from '../../reduxStore/stores/api.js'
-import * as cartAPI from '../../reduxStore/cart/api.js'
+import * as cartAPI from '../../reduxStore/cart/actions'
 
-import NavBar from '../../components/navbar/navbar.js'
-import Footer from '../../components/footer/footer.js'
-import Cart from '../../components/cart/cart.js'
+import NavBar from '../../components/Navbar/Navbar'
+import Footer from '../../components/Footer/Footer'
+import Cart from '../../components/Cart/Cart'
 
 import './store.css';
 
@@ -186,7 +186,7 @@ export default class Store extends Component {
         taste: taste,
         title: taste.name
       }
-      this.context.store.dispatch(cartAPI.add(item))
+      this.context.store.dispatch(cartAPI.addItemCart(item))
     }
   }
 

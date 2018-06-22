@@ -1,45 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import * as cartAPI from '../../reduxStore/cart/api.js'
+import * as cartActions from '../../reduxStore/cart/actions'
 
-export default class Cart extends Component {
+class Cart extends Component {
+
   static contextTypes = {
     store: PropTypes.object.isRequired
   }
 
-  constructor() {
-    super()
-    this.state = {
-      cart: {}
-    }
-  }
-
-  componentWillMount() {
-    this.context.store.subscribe(() => {
-      this.setState({
-        ...this.state,
-        cart: this.context.store.getState().cartReducer.cart
-      })
-    })
-  }
-
-  componentDidMount() {
-    this.context.store.dispatch(cartAPI.load())
-  }
-
-  changeQt (itemId, qt) {
-    this.context.store.dispatch(cartAPI.changeQt(itemId, qt))
-  }
-
-  finish () {
-    this.context.store.dispatch(cartAPI.finish())
-  }
-
   renderItens = () => {
-    if (this.state.cart.itens) {
+    if (this.props.cart.itens) {
       return (
-        this.state.cart.itens.map((item) =>
+        this.props.cart.itens.map((item) =>
           <div key={item.id} className="row">
             <div className="col-6 text-truncate">
               <span>{item.title}</span>
@@ -48,9 +22,9 @@ export default class Cart extends Component {
               <span>R${parseFloat(item.value).toFixed(2)}</span>
             </div>
             <div style={{ display: "block", width: "auto", height: "inherit" }}>
-              <i className="fas fa-minus-circle text-danger" onClick={() => this.changeQt(item.id, item.qt-1)}></i>
+              <i className="fas fa-minus-circle text-danger" onClick={() => this.props.changeQtCart(item.id, item.qt-1)}></i>
               <span style={{ display: "inline-block" }}>&nbsp;{item.qt}&nbsp;</span>
-              <i className="fas fa-plus-circle text-success" onClick={() => this.changeQt(item.id, item.qt+1)}></i>
+              <i className="fas fa-plus-circle text-success" onClick={() => this.props.changeQtCart(item.id, item.qt+1)}></i>
             </div>
           </div>
         )
@@ -68,7 +42,7 @@ export default class Cart extends Component {
             <span><strong>Sub Total Do Pedido</strong></span>
           </div>
           <div className="col-md-4 pl-0 text-left">
-            <span>R${parseFloat(this.state.cart.subTotal).toFixed(2)}</span>
+            <span>R${parseFloat(this.props.cart.subTotal).toFixed(2)}</span>
           </div>
         </div>
 
@@ -77,7 +51,7 @@ export default class Cart extends Component {
             <span><strong>Taxa de entrega</strong></span>
           </div>
           <div className="col-md-4 pl-0 text-left">
-            <span>R${parseFloat(this.state.cart.deliveryCost).toFixed(2)}</span>
+            <span>R${parseFloat(this.props.cart.deliveryCost).toFixed(2)}</span>
           </div>
         </div>
 
@@ -86,7 +60,7 @@ export default class Cart extends Component {
             <span><strong>Total</strong></span>
           </div>
           <div className="col-md-4 pl-0 text-left">
-            <span>R${parseFloat(this.state.cart.total).toFixed(2)}</span>
+            <span>R${parseFloat(this.props.cart.total).toFixed(2)}</span>
           </div>
         </div>
 
@@ -95,7 +69,7 @@ export default class Cart extends Component {
             <span className="small"><strong>Tempo de entrega estimado:</strong></span>
           </div>
           <div className="col-md-4 pl-0 text-left">
-            <span className="small">{this.state.cart.estimatedTime}</span>
+            <span className="small">{this.props.cart.estimatedTime}</span>
           </div>
         </div>
       </div>
@@ -106,14 +80,13 @@ export default class Cart extends Component {
     return (
       <div className="row align-items-center py-3">
         <div className="col-md-12">
-          <a className="nav-link btn bg-danger text-white" onClick={() => this.finish()}>Fechar pedido</a>
+          <a className="nav-link btn bg-danger text-white" onClick={() => this.props.finalizeCart()}>Fechar pedido</a>
         </div>
       </div>
     )
   }
 
   render() {
-    console.log(this.state)
     const itens = this.renderItens()
     const resume = this.renderResume()
     const finalize = this.renderFinalize()
@@ -134,7 +107,7 @@ export default class Cart extends Component {
                 </div>
               </div>
 
-              {this.state.cart.itens ?
+              {this.props.cart.itens ?
                 <div>
                   <div className="card-block py-1 px-1">
                     {itens}
@@ -163,3 +136,19 @@ export default class Cart extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    cart: state.cartReducer.cart
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadCart: () => dispatch(cartActions.loadCart()),
+    changeQtCart: (itemId, qt) => dispatch(cartActions.changeQtCart(itemId, qt)),
+    finalizeCart: () => dispatch(cartActions.finalizeCart())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,12 +1,13 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux'
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux'
 import thunk from 'redux-thunk'
 
 import storesReducer from './stores/reducer.js'
 import cartReducer from './cart/reducer.js'
 
-const reduxStore = createStore(combineReducers({
-    storesReducer,
-    cartReducer
-}), applyMiddleware(thunk))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const reduxStore = createStore(
+    combineReducers({storesReducer, cartReducer}), 
+    composeEnhancers(applyMiddleware(thunk))
+);
 
 export default reduxStore
