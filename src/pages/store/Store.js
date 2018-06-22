@@ -171,13 +171,14 @@ class Store extends Component {
   addItem (taste) {
     if(this.state.selectedSize !== '' && this.state.selectedPasta !== '' && this.state.selectedBorder !== '') {
       const item = {
+        storeId: this.props.store.id,
         size: this.state.selectedSize,
         pasta: JSON.parse(this.state.selectedPasta),
         border: JSON.parse(this.state.selectedBorder),
         taste: taste,
         title: taste.name
       }
-      this.context.store.dispatch(cartActions.addItemCart(item))
+      this.props.addItemCart(item)
     }
   }
 
@@ -236,7 +237,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadStore: (storeId) => dispatch(storesActions.loadStore(storeId))
+    loadStore: (storeId) => dispatch(storesActions.loadStore(storeId)),
+    addItemCart: (item) => dispatch(cartActions.addItemCart(item))
   }
 }
 

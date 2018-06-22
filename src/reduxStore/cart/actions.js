@@ -14,7 +14,7 @@ export const addItemCart = (item) => {
     ...item,
     qt: 1,
     value: borderValue + pastaValue + tasteValue,
-    totalValue: (borderValue + pastaValue + tasteValue) * 1
+    totalValue: (borderValue + pastaValue + tasteValue)
   }
   return {
     type: actionTypes.ADD_ITEM_CART,

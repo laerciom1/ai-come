@@ -17,7 +17,13 @@ class Cart extends Component {
         this.props.cart.itens.map((item) =>
           <div key={item.id} className="row">
             <div className="col-6 text-truncate">
-              <span>{item.title}</span>
+              <span>{item.title}</span><br/>
+              <span style={{"fontSize":"11px"}}>{item.size === "xl"  ? "Gigante" :
+                                            item.size === "l"   ? "Grande" :
+                                            item.size === "m"   ? "Média" : 
+                                                                  "Pequena"}</span><br/>
+              <span style={{"fontSize":"11px"}}>Massa: {item.pasta.name}</span><br/>
+              <span style={{"fontSize":"11px"}}>Borda: {item.border.name}</span><br/>
             </div>
             <div className="col-3 pl-0 pr-1">
               <span>R${parseFloat(item.value).toFixed(2)}</span>
