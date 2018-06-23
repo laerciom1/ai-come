@@ -1,19 +1,26 @@
 package br.ufrn.aicome.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuDTO implements Serializable {
 
+	@ApiModelProperty(notes = "The store ID in database")
 	private Integer storeId;
 
+	@ApiModelProperty(notes = "The tastes available")
 	private List<TasteDTO> tastes;
 
+	@ApiModelProperty(notes = "The pastas available")
 	private List<PastaDTO> pastas;
 
+	@ApiModelProperty(notes = "The borders available")
 	private List<BorderDTO> borders;
 
+	@ApiModelProperty(notes = "The sizes available")
 	private List<SizeDTO> sizes;
 
 	public MenuDTO() {

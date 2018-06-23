@@ -2,21 +2,28 @@ package br.ufrn.aicome.model.dto;
 
 import br.ufrn.aicome.model.Address;
 import br.ufrn.aicome.model.Store;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 
 public class StoreDTO implements Serializable {
 
+	@ApiModelProperty(notes = "The database generated ID")
 	private Integer id;
 
+	@ApiModelProperty(notes = "The store name")
 	private String name;
 
+	@ApiModelProperty(notes = "The store biography")
 	private String bio;
 
+	@ApiModelProperty(notes = "The store image URL")
 	private String image;
 
+	@ApiModelProperty(notes = "The store address")
 	private AddressDTO address;
 
+	@ApiModelProperty(notes = "The store menu")
 	private MenuDTO menu;
 
 	public StoreDTO() {

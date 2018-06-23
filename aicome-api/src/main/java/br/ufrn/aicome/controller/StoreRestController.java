@@ -3,6 +3,8 @@ package br.ufrn.aicome.controller;
 import br.ufrn.aicome.model.*;
 import br.ufrn.aicome.model.dto.*;
 import br.ufrn.aicome.repository.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/stores")
+@Api(tags="Stores", value="store", description="Operations pertaining to stores")
 public class StoreRestController {
 
 	@Autowired
@@ -37,6 +40,7 @@ public class StoreRestController {
 	 * @return list of storeDTO.
 	 */
 	@GetMapping("")
+	@ApiOperation(value = "View a list of stores", response = StoreDTO.class, responseContainer="List")
 	public List<StoreDTO> getStores(){
 		List<Store> stores = new ArrayList<>(storeRepository.findAll());
 		return stores.stream().map(StoreDTO::new).collect(Collectors.toList());
@@ -48,6 +52,7 @@ public class StoreRestController {
 	 * @return storeDTO.
 	 */
 	@GetMapping("/{storeId:[0-9]+}")
+	@ApiOperation(value = "Fetch a store with the given id", response = StoreDTO.class)
 	public StoreDTO getStore(@PathVariable Integer storeId) {
 		Store store = storeRepository.findById(storeId).orElse(new Store());
 		StoreDTO storeDTO = new StoreDTO(store);
@@ -62,6 +67,7 @@ public class StoreRestController {
 	 * @return menuDTO.
 	 */
 	@GetMapping("/{storeId:[0-9]+}/menu")
+	@ApiOperation(value = "Fetch a store menu", response = MenuDTO.class)
 	public MenuDTO getStoreMenu(@PathVariable Integer storeId){
 		List<Border> borders = new ArrayList<>(borderRepository.findBordersByStoreId(storeId));
 		List<Pasta> pastas = new ArrayList<>(pastaRepository.findPastasByStoreId(storeId));
