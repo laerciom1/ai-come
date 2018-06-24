@@ -1,15 +1,10 @@
 package br.ufrn.aicome.controller;
 
-import static java.util.concurrent.TimeUnit.SECONDS;
-
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
-
+import br.ufrn.aicome.model.User;
+import br.ufrn.aicome.model.dto.AuthDTO;
+import br.ufrn.aicome.model.dto.OrderDTO;
+import br.ufrn.aicome.model.dto.OrderReceiptDTO;
+import br.ufrn.aicome.model.enums.Permission;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
@@ -26,6 +20,18 @@ import org.springframework.messaging.simp.stomp.StompFrameHandler;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
@@ -33,11 +39,12 @@ import org.springframework.web.socket.sockjs.client.SockJsClient;
 import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
-import br.ufrn.aicome.model.dto.AuthDTO;
-import br.ufrn.aicome.model.dto.OrderDTO;
-import br.ufrn.aicome.model.dto.OrderReceiptDTO;
-import br.ufrn.aicome.model.enums.Permission;
-import br.ufrn.aicome.security.SecurityConstants;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -65,6 +72,18 @@ public class OrderSocketControllerTest {
 	private int port;
 
 	/**
+	 * The signing key to use in token.
+	 */
+	@Value("${security.signing-key}")
+	private String signingKey;
+
+	/**
+	 * Token expiration time in seconds.
+	 */
+	@Value("${security.jwt.expiration}")
+	private int expirationToken;
+
+	/**
 	 * Stomp Websocket Client.
 	 */
 	private WebSocketStompClient stompClient;
@@ -79,8 +98,8 @@ public class OrderSocketControllerTest {
 	 */
 	@Before
 	public void setup() throws Exception {
-		String token = createToken();
-		String url = String.format("ws://localhost:%d/ws?%s=%s", port, SecurityConstants.ACCESS_TOKEN_PARAMETER, token);
+		String accessToken = obtainAccessToken("admin", "admin");
+		String url = String.format("ws://localhost:%d/ws?access_token=%s", port, accessToken);
 		stompClient = new WebSocketStompClient(new SockJsClient(createTransportClient()));
 		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 		stompSession = stompClient.connect(url, new StompSessionHandlerAdapter() {}).get(1, SECONDS);
@@ -149,31 +168,6 @@ public class OrderSocketControllerTest {
 	}
 
 	/**
-	 * Auxiliary method to generate a JWT token
-	 * authentication to 'admin' user.
-	 * @return JWT Token
-	 */
-	private String createToken() {
-
-		try {
-			AuthDTO credentials = new AuthDTO();
-			credentials.setUsername("admin");
-			credentials.setPermissions(Arrays.asList(Permission.ADMIN));
-			ObjectMapper mapper = new ObjectMapper();
-			String token = Jwts.builder()
-					.setSubject(mapper.writeValueAsString(credentials))
-					.setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-					.signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET.getBytes())
-					.compact();
-			return token;
-		} catch (JsonProcessingException e){
-			return "";
-		}
-
-
-	}
-
-	/**
 	 * Create transport client used in websocket.
 	 * @return standard websocket client.
 	 */
@@ -181,6 +175,62 @@ public class OrderSocketControllerTest {
 		List<Transport> transports = new ArrayList<>(1);
 		transports.add(new WebSocketTransport(new StandardWebSocketClient()));
 		return transports;
+	}
+
+	/**
+	 * Auxiliary method to generate a jwt token.
+	 * @param username the username.
+	 * @param password the user password.
+	 * @return access token jwt.
+	 */
+	private String obtainAccessToken(String username, String password) throws Exception {
+
+		JwtAccessTokenConverter accessTokenConverter = new JwtAccessTokenConverter();
+		accessTokenConverter.setSigningKey(signingKey);
+
+		TokenStore tokenStore = new JwtTokenStore(accessTokenConverter);
+
+		DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+		defaultTokenServices.setTokenStore(tokenStore);
+		defaultTokenServices.setSupportRefreshToken(true);
+
+		TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter));
+
+		defaultTokenServices.setTokenEnhancer(enhancerChain);
+
+		Map<String, String> authorizationParameters = new HashMap<>();
+		authorizationParameters.put("scope", "read write");
+		authorizationParameters.put("username", username);
+		authorizationParameters.put("client_id", "aicome-web");
+		authorizationParameters.put("client_secret", "aicome-web");
+		authorizationParameters.put("grant_type", "password");
+
+		Set<GrantedAuthority> authorities = new HashSet<>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+		Set<String> responseType = new HashSet<>();
+		responseType.add("password");
+
+		Set<String> scopes = new HashSet<>();
+		scopes.add("read");
+		scopes.add("write");
+
+		OAuth2Request authorizationRequest = new OAuth2Request(
+				authorizationParameters, "aicome-web",
+				authorities, true, scopes, null, "",
+				responseType, null);
+
+		User user = new User();
+		user.setUsername(username);
+
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, authorities);
+
+		OAuth2Authentication authenticationRequest = new OAuth2Authentication(authorizationRequest, authenticationToken);
+		authenticationRequest.setAuthenticated(true);
+
+		OAuth2AccessToken accessToken = defaultTokenServices.createAccessToken(authenticationRequest);
+		return accessToken.getValue();
 	}
 
 }

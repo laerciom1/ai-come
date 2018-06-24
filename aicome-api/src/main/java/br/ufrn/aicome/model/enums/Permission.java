@@ -2,7 +2,7 @@ package br.ufrn.aicome.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 
-public enum Permission implements  GrantedAuthority{
+public enum Permission implements GrantedAuthority{
 	ADMIN,USER;
 
 	@Override
