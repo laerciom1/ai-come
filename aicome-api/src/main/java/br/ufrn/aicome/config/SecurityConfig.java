@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -51,15 +52,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and().httpBasic().realmName(securityRealm)
-				.and().cors()
+				.and().cors().configurationSource(corsConfigurationSource())
 				.and().csrf().disable();
 	}
 
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*")); //TODO set a more restricted origin depending on the environment profile
-		configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+		configuration.setAllowedOrigins(Arrays.asList("*")); //TODO set a more resricted origin depending on the environment profile
+		configuration.setAllowedMethods(Arrays.asList("GET","POST", "OPTIONS"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
