@@ -1,8 +1,7 @@
 package br.ufrn.aicome.service;
 
-import java.util.Collections;
-import java.util.Optional;
-
+import br.ufrn.aicome.model.User;
+import br.ufrn.aicome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.ufrn.aicome.model.User;
-import br.ufrn.aicome.repository.UserRepository;
+import java.util.Optional;
 
 
 @Service
@@ -21,7 +19,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UserRepository repository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	@Cacheable(cacheNames="userByUsername", key="#username")
+	public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
 
 		Optional<User> optionalUser = repository.findByUsername(username);
 
