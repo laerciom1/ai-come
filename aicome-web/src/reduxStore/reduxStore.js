@@ -4,11 +4,10 @@ import thunk from 'redux-thunk'
 import storesReducer from './stores/reducer'
 import cartReducer from './cart/reducer'
 import ordersReducer from './orders/reducer'
-import authReducer from './auth/reducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const reduxStore = createStore(
-    combineReducers({storesReducer, cartReducer, ordersReducer, authReducer}), 
+    combineReducers({storesReducer, cartReducer, ordersReducer}), 
     composeEnhancers(applyMiddleware(thunk))
 );
 

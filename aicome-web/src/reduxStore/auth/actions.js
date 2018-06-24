@@ -1,18 +1,10 @@
-import * as actionTypes from './actionTypes'
 import * as config from '../../config'
 import qs from 'qs';
 import axios from 'axios'
 import {history} from '../../routes'
 
-export const setAuth = (auth) => {
-    return {
-      type: actionTypes.SET_AUTH,
-      auth: auth
-    }
-  }
-
 export const login = (username, password) => {
-    return (dispatch) => {
+    return () => {
 
         const basicAuth = {
             username: config.CLIENT_ID,
@@ -40,7 +32,6 @@ export const login = (username, password) => {
         axios(request).then(response => {
             localStorage.setItem('access_token', response.data.access_token);
             localStorage.setItem('username', username);
-            dispatch(setAuth(response.data));
             history.push('/');
         }).catch(error => {
           console.log(error);
