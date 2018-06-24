@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
+import { createBrowserHistory } from 'history';
+
 
 import Home from './pages/home/Home.js';
 import Login from './pages/login/Login.js'
@@ -8,9 +10,11 @@ import Register from './pages/register/Register.js'
 import Store from './pages/store/Store.js'
 import OrdersList from './pages/ordersList/OrdersList.js';
 
+const history = createBrowserHistory()
+
 class PrivateRoute extends Component {
     estaAutenticado() {
-        if(localStorage.getItem('USER_username')){
+        if(localStorage.getItem('username')){
             return true
         }
         return false
@@ -40,6 +44,8 @@ const Routes = () => {
             <Route path='/orders' component={OrdersList} />
         </Switch>
     )
-}
+};
 
-export default Routes
+export default Routes;
+
+export {history};

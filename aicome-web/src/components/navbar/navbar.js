@@ -23,9 +23,9 @@ export default class NavBar extends Component {
                             <li className="nav-item">
                                 <a className="nav-link">Contato</a>
                             </li>
-                            {   localStorage.getItem('USER_firstName') ?
+                            {   localStorage.getItem('username') ?
                                 <li className="nav-item">
-                                    <a className="nav-link">Bem-vindo, <strong>{localStorage.getItem('USER_firstName')}</strong></a>
+                                    <a className="nav-link">Bem-vindo, <strong>{localStorage.getItem('username')}</strong></a>
                                 </li>
                                 :
                                 <li className="nav-item">

@@ -18,9 +18,8 @@ export const setActualStore = (store) => {
 
 export const loadActualStore = (storeId) => {
   return (dispatch) => {
-    axios.get(config.API_URL + '/stores/' + storeId + '?access_token=' + config.ACCESS_TOKEN)
+    axios.get(config.API_URL + '/stores/' + storeId)
     .then(response => {
-      console.log(response.data);
       dispatch(setActualStore(response.data));
     })
     .catch(error => {
@@ -31,7 +30,7 @@ export const loadActualStore = (storeId) => {
 
 export const loadStores = () => {
   return dispatch => {
-    axios.get(config.API_URL + '/stores' + '?access_token=' + config.ACCESS_TOKEN)
+    axios.get(config.API_URL + '/stores')
     .then(response => {
       dispatch(setStores(response.data));
     })

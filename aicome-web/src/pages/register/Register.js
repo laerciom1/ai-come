@@ -23,7 +23,7 @@ export default class Register extends Component {
     }
     localStorage.setItem('USER_firstName', loginInfo.firstName)
     localStorage.setItem('USER_lastName', loginInfo.lastName)
-    localStorage.setItem('USER_username', loginInfo.login)
+    localStorage.setItem('username', loginInfo.login)
     this.props.history.push('/')
     // fetch(`http://localhost:3001/login?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
     //   method: 'POST',
@@ -51,7 +51,7 @@ export default class Register extends Component {
   render() {
     localStorage.removeItem('USER_firstName')
     localStorage.removeItem('USER_lastName')
-    localStorage.removeItem('USER_username')
+    localStorage.removeItem('username')
     return (
       <div className="Register">
         <div className="limiter">
