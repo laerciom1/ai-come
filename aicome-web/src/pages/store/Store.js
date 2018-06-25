@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import * as config from '../../config';
 
 import * as storesActions from '../../reduxStore/stores/actions.js'
 import * as cartActions from '../../reduxStore/cart/actions.js'
@@ -185,7 +186,7 @@ class Store extends Component {
               <div className="card">
                 <div className="row ">
                   <div className="col-md-3">
-                    <img className="w-100" src="http://via.placeholder.com/200x200" alt="" />
+                    <img className="w-100" src={this.props.store.profileImage ? config.API_URL + this.props.store.profileImage : 'http://via.placeholder.com/200x200'} alt="" />
                   </div>
                   <div className="col-md-9 px-3">
                     <div className="card-block px-3">

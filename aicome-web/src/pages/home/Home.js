@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
+import * as config from '../../config';
 
 import * as storesActions from '../../reduxStore/stores/actions.js'
 
@@ -51,7 +52,7 @@ class Home extends Component {
         <div key={index}>
           <div className="row">
             <div className="col-md-7">
-              <Link to={`store/${store.id}`}><img className="img-fluid rounded mb-3 mb-md-0" src="http://placehold.it/700x300" alt="" /></Link>
+              <Link to={`store/${store.id}`}><img className="img-fluid rounded mb-3 mb-md-0" src={store.thumbnailImage ? config.API_URL + store.thumbnailImage : 'http://placehold.it/700x300'} alt="" /></Link>
             </div>
             <div className="col-md-5">
               <h3>{store.name}</h3>
