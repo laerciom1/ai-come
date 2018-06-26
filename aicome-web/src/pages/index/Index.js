@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
-import '../../assets/style/vendor/bootstrap/css/bootstrap.min.css';
-import '../../assets/style/vendor/animate/animate.css';
-import '../../assets/style/vendor/css-hamburgers/hamburgers.min.css';
-import '../../assets/style/vendor/animsition/css/animsition.min.css';
-import '../../assets/style/vendor/select2/select2.min.css';
-import '../../assets/style/vendor/daterangepicker/daterangepicker.css';
-import '../../assets/style/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
-import '../../assets/style/fonts/iconic/css/material-design-iconic-font.min.css';
 import '../../assets/style/css/util.css';
 import '../../assets/style/css/main.css';
-import '../../assets/style/css/bootstrap.min.css'
 import './index.css';
 
 import Footer from '../../components/footer/footer.js'
@@ -46,11 +37,8 @@ export default class Index extends Component {
 
         {/*<!-- Page Content -->*/}
         <Footer />
-
-        {/*<!-- Bootstrap core JavaScript -->*/}
-        <script src="../../assets/style/vendor/jquery/jquery.min.js"></script>
-        <script src="../../assets/style/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
       </div>
     );
   }
