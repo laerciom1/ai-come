@@ -21,6 +21,7 @@ public class DbInitializer implements InitializingBean {
 
     private void createDb() {
         Connection connection = connectionFactory.createConnection();
+        
         List<String> dbList = r.dbList().run(connection);
         if (!dbList.contains("chat")) {
             r.dbCreate("chat").run(connection);
@@ -30,6 +31,7 @@ public class DbInitializer implements InitializingBean {
             r.db("chat").tableCreate("messages").run(connection);
             r.db("chat").table("messages").indexCreate("time").run(connection);
         }
+        System.err.println("foi");
     }
 }
 
