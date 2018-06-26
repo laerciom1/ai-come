@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './navbar.css';
-import './bootstrap.min.css';
 
 export default class NavBar extends Component {
     render() {
@@ -35,6 +34,8 @@ export default class NavBar extends Component {
                         </ul>
                     </div>
                 </div>
+                <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet"/>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
             </nav>
         );
     }

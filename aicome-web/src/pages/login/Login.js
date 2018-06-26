@@ -3,17 +3,8 @@ import { connect } from 'react-redux'
 
 import * as authActions from '../../reduxStore/auth/actions'
 
-import '../../assets/style/vendor/bootstrap/css/bootstrap.min.css';
-import '../../assets/style/vendor/animate/animate.css';
-import '../../assets/style/vendor/css-hamburgers/hamburgers.min.css';
-import '../../assets/style/vendor/animsition/css/animsition.min.css';
-import '../../assets/style/vendor/select2/select2.min.css';
-import '../../assets/style/vendor/daterangepicker/daterangepicker.css';
-import '../../assets/style/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
-import '../../assets/style/fonts/iconic/css/material-design-iconic-font.min.css';
 import '../../assets/style/css/util.css';
 import '../../assets/style/css/main.css';
-import '../../assets/style/css/bootstrap.min.css'
 
 
 class Login extends Component {
@@ -73,18 +64,14 @@ class Login extends Component {
 
         <div id="dropDownSelect1"></div>
 
-        <script src="../../assets/style/vendor/jquery/jquery-3.2.1.min.js"></script>
-        <script src="../../assets/style/vendor/animsition/js/animsition.min.js"></script>
-        <script src="../../assets/style/vendor/bootstrap/js/popper.js"></script>
-        <script src="../../assets/style/vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script src="../../assets/style/vendor/select2/select2.min.js"></script>
-        <script src="../../assets/style/vendor/daterangepicker/moment.min.js"></script>
-        <script src="../../assets/style/vendor/daterangepicker/daterangepicker.js"></script>
-        <script src="../../assets/style/vendor/countdowntime/countdowntime.js"></script>
+        {/* CSS */}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" />
+        
+        {/* JS */}
         <script src="../../assets/style/js/main.js"></script>
-        <script src="../../assets/style/js/bootstrap.min.js"></script>
-        <script src="../../assets/style/js/jquery-3.3.1.slim.min.js"></script>
-        <script src="../../assets/style/js/popper.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
       </div>
     );
   }
