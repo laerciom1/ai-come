@@ -22,6 +22,9 @@ import java.util.stream.Collectors;
 public class StoreRestController {
 
 	@Autowired
+	private AddressRepository addressRepository;
+
+	@Autowired
 	private StoreRepository storeRepository;
 
 	@Autowired
@@ -56,10 +59,24 @@ public class StoreRestController {
 	@ApiOperation(value = "Fetch a store with the given id", response = StoreDTO.class, authorizations=@Authorization("oauth2"))
 	public StoreDTO getStore(@PathVariable Integer storeId) {
 		Store store = storeRepository.findById(storeId).orElse(new Store());
-		StoreDTO storeDTO = new StoreDTO(store);
+		List<Address> addresses = addressRepository.findAddressesByStoreId(storeId);
+		StoreDTO storeDTO = new StoreDTO(store, addresses);
 		MenuDTO menuDTO = this.getStoreMenu(storeId);
 		storeDTO.setMenu(menuDTO);
 		return storeDTO;
+	}
+
+	/**
+	 * Returns the store addresses.
+	 * @param storeId the store id.
+	 * @return list of addresses.
+	 */
+	@GetMapping("/{storeId:[0-9]+}/addresses")
+	@ApiOperation(value = "Fetch a store menu", response = AddressDTO.class, responseContainer="List", authorizations=@Authorization("oauth2"))
+	public List<AddressDTO> getStoreAddresses(@PathVariable Integer storeId){
+		List<Address> addresses = new ArrayList<>(addressRepository.findAddressesByStoreId(storeId));
+		List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());
+		return addressesDto;
 	}
 
 	/**

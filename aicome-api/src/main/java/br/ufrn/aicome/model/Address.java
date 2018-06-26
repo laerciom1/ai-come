@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -36,6 +38,10 @@ public class Address extends AbstractModel<Integer>  {
 
 	@Column(name="zip")
 	private String zip;
+
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public Integer getId() {
 		return id;
@@ -100,7 +106,12 @@ public class Address extends AbstractModel<Integer>  {
 	public void setZip(String zip) {
 		this.zip = zip;
 	}
-	
-	
-	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
 }

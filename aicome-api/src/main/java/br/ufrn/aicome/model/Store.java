@@ -1,6 +1,14 @@
 package br.ufrn.aicome.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name="store")
@@ -22,10 +30,6 @@ public class Store extends AbstractModel<Integer> {
 
 	@Column(name="thumbnail_image")
 	private String thumbnailImage;
-
-	@ManyToOne
-	@JoinColumn(name="address_id")
-	private Address address;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
@@ -71,14 +75,6 @@ public class Store extends AbstractModel<Integer> {
 
 	public void setThumbnailImage(String thumbnailImage) {
 		this.thumbnailImage = thumbnailImage;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 
 	public User getUser() {

@@ -1,10 +1,14 @@
 package br.ufrn.aicome.model.dto;
 
-import br.ufrn.aicome.model.Address;
-import br.ufrn.aicome.model.Store;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
+import br.ufrn.aicome.model.Address;
+import br.ufrn.aicome.model.Store;
+import br.ufrn.aicome.model.User;
 
 public class StoreDTO implements Serializable {
 
@@ -23,8 +27,8 @@ public class StoreDTO implements Serializable {
 	@ApiModelProperty(notes = "The store profile image URL")
 	private String profileImage;
 
-	@ApiModelProperty(notes = "The store address")
-	private AddressDTO address;
+	@ApiModelProperty(notes = "The store addresses")
+	private List<AddressDTO> addresses;
 
 	@ApiModelProperty(notes = "The store menu")
 	private MenuDTO menu;
@@ -32,18 +36,24 @@ public class StoreDTO implements Serializable {
 	public StoreDTO() {
 	}
 
-	public StoreDTO(Store store) {
+	public StoreDTO(Store store){
+		this(store, null);
+	}
+
+	public StoreDTO(Store store, List<Address> addresses) {
 		setId(store.getId());
 		setName(store.getName());
 		setBio(store.getBio());
 		setProfileImage(store.getProfileImage());
 		setThumbnailImage(store.getThumbnailImage());
 
-		Address address = store.getAddress();
+		User user = store.getUser();
 
-		if(address != null){
-			AddressDTO addressDto = new AddressDTO(address);
-			setAddress(addressDto);
+		if(user != null && addresses != null){
+
+			List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());
+			setAddresses(addressesDto);
+
 		}
 
 	}
@@ -88,12 +98,12 @@ public class StoreDTO implements Serializable {
 		this.profileImage = profileImage;
 	}
 
-	public AddressDTO getAddress() {
-		return address;
+	public List<AddressDTO> getAddresses() {
+		return addresses;
 	}
 
-	public void setAddress(AddressDTO address) {
-		this.address = address;
+	public void setAddresses(List<AddressDTO> addresses) {
+		this.addresses = addresses;
 	}
 
 	public MenuDTO getMenu() {
