@@ -1,10 +1,14 @@
 package br.ufrn.aicome.model.dto;
 
-import br.ufrn.aicome.model.Address;
-import br.ufrn.aicome.model.Store;
+import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.swagger.annotations.ApiModelProperty;
 
-import java.io.Serializable;
+import br.ufrn.aicome.model.Address;
+import br.ufrn.aicome.model.Store;
+import br.ufrn.aicome.model.User;
 
 public class StoreDTO implements Serializable {
 
@@ -18,10 +22,13 @@ public class StoreDTO implements Serializable {
 	private String bio;
 
 	@ApiModelProperty(notes = "The store image URL")
-	private String image;
+	private String thumbnailImage;
 
-	@ApiModelProperty(notes = "The store address")
-	private AddressDTO address;
+	@ApiModelProperty(notes = "The store profile image URL")
+	private String profileImage;
+
+	@ApiModelProperty(notes = "The store addresses")
+	private List<AddressDTO> addresses;
 
 	@ApiModelProperty(notes = "The store menu")
 	private MenuDTO menu;
@@ -29,17 +36,24 @@ public class StoreDTO implements Serializable {
 	public StoreDTO() {
 	}
 
-	public StoreDTO(Store store) {
+	public StoreDTO(Store store){
+		this(store, null);
+	}
+
+	public StoreDTO(Store store, List<Address> addresses) {
 		setId(store.getId());
 		setName(store.getName());
 		setBio(store.getBio());
-		setImage(store.getImage());
+		setProfileImage(store.getProfileImage());
+		setThumbnailImage(store.getThumbnailImage());
 
-		Address address = store.getAddress();
+		User user = store.getUser();
 
-		if(address != null){
-			AddressDTO addressDto = new AddressDTO(address);
-			setAddress(addressDto);
+		if(user != null && addresses != null){
+
+			List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());
+			setAddresses(addressesDto);
+
 		}
 
 	}
@@ -68,20 +82,28 @@ public class StoreDTO implements Serializable {
 		this.bio = bio;
 	}
 
-	public String getImage() {
-		return image;
+	public String getThumbnailImage() {
+		return thumbnailImage;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
 	}
 
-	public AddressDTO getAddress() {
-		return address;
+	public String getProfileImage() {
+		return profileImage;
 	}
 
-	public void setAddress(AddressDTO address) {
-		this.address = address;
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	public List<AddressDTO> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<AddressDTO> addresses) {
+		this.addresses = addresses;
 	}
 
 	public MenuDTO getMenu() {

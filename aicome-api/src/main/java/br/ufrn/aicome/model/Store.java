@@ -1,13 +1,24 @@
 package br.ufrn.aicome.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="store")
 public class Store extends AbstractModel<Integer> {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="native")
+	@GenericGenerator(name = "native", strategy = "native")
 	@Column(name="id")
 	private Integer id;
 
@@ -17,12 +28,11 @@ public class Store extends AbstractModel<Integer> {
 	@Column(name="bio")
 	private String bio;
 
-	@Column(name="image")
-	private String image;
+	@Column(name="profile_image")
+	private String profileImage;
 
-	@ManyToOne
-	@JoinColumn(name="address_id")
-	private Address address;
+	@Column(name="thumbnail_image")
+	private String thumbnailImage;
 
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="user_id")
@@ -54,20 +64,20 @@ public class Store extends AbstractModel<Integer> {
 		this.bio = bio;
 	}
 
-	public String getImage() {
-		return image;
+	public String getProfileImage() {
+		return profileImage;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
-	public Address getAddress() {
-		return address;
+	public String getThumbnailImage() {
+		return thumbnailImage;
 	}
 
-	public void setAddress(Address address) {
-		this.address = address;
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
 	}
 
 	public User getUser() {

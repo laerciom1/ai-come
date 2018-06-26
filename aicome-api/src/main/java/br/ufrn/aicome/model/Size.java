@@ -2,12 +2,15 @@ package br.ufrn.aicome.model;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name="size")
 public class Size extends AbstractModel<Integer> {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY, generator="native")
+    @GenericGenerator(name = "native", strategy = "native")
     @Column(name="id")
     private Integer id;
 

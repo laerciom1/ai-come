@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import './vendor/bootstrap/css/bootstrap.min.css';
-import './vendor/animate/animate.css';
-import './vendor/css-hamburgers/hamburgers.min.css';
-import './vendor/animsition/css/animsition.min.css';
-import './vendor/select2/select2.min.css';
-import './vendor/daterangepicker/daterangepicker.css';
-import './fonts/font-awesome-4.7.0/css/font-awesome.min.css';
-import './fonts/iconic/css/material-design-iconic-font.min.css';
-import './css/util.css';
-import './css/main.css';
-import './css/bootstrap.min.css'
+import '../../assets/style/vendor/bootstrap/css/bootstrap.min.css';
+import '../../assets/style/vendor/animate/animate.css';
+import '../../assets/style/vendor/css-hamburgers/hamburgers.min.css';
+import '../../assets/style/vendor/animsition/css/animsition.min.css';
+import '../../assets/style/vendor/select2/select2.min.css';
+import '../../assets/style/vendor/daterangepicker/daterangepicker.css';
+import '../../assets/style/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
+import '../../assets/style/fonts/iconic/css/material-design-iconic-font.min.css';
+import '../../assets/style/css/util.css';
+import '../../assets/style/css/main.css';
+import '../../assets/style/css/bootstrap.min.css'
 
 
 export default class Register extends Component {
@@ -114,18 +114,18 @@ export default class Register extends Component {
 
         <div id="dropDownSelect1"></div>
 
-        <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-        <script src="vendor/animsition/js/animsition.min.js"></script>
-        <script src="vendor/bootstrap/js/popper.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-        <script src="vendor/select2/select2.min.js"></script>
-        <script src="vendor/daterangepicker/moment.min.js"></script>
-        <script src="vendor/daterangepicker/daterangepicker.js"></script>
-        <script src="vendor/countdowntime/countdowntime.js"></script>
-        <script src="js/main.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery-3.3.1.slim.min.js"></script>
-        <script src="js/popper.min.js"></script>
+        <script src="../../assets/style/vendor/jquery/jquery-3.2.1.min.js"></script>
+        <script src="../../assets/style/vendor/animsition/js/animsition.min.js"></script>
+        <script src="../../assets/style/vendor/bootstrap/js/popper.js"></script>
+        <script src="../../assets/style/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../assets/style/vendor/select2/select2.min.js"></script>
+        <script src="../../assets/style/vendor/daterangepicker/moment.min.js"></script>
+        <script src="../../assets/style/vendor/daterangepicker/daterangepicker.js"></script>
+        <script src="../../assets/style/vendor/countdowntime/countdowntime.js"></script>
+        <script src="../../assets/style/js/main.js"></script>
+        <script src="../../assets/style/js/bootstrap.min.js"></script>
+        <script src="../../assets/style/js/jquery-3.3.1.slim.min.js"></script>
+        <script src="../../assets/style/js/popper.min.js"></script>
       </div>
     );
   }
