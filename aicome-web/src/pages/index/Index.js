@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import './vendor/bootstrap/css/bootstrap.min.css';
-import './vendor/animate/animate.css';
-import './vendor/css-hamburgers/hamburgers.min.css';
-import './vendor/animsition/css/animsition.min.css';
-import './vendor/select2/select2.min.css';
-import './vendor/daterangepicker/daterangepicker.css';
-import './fonts/font-awesome-4.7.0/css/font-awesome.min.css';
-import './fonts/iconic/css/material-design-iconic-font.min.css';
-import './css/util.css';
-import './css/main.css';
-import './css/bootstrap.min.css'
-
-import './css/index.css';
-import './css/bootstrap.min.css';
+import '../../assets/style/vendor/bootstrap/css/bootstrap.min.css';
+import '../../assets/style/vendor/animate/animate.css';
+import '../../assets/style/vendor/css-hamburgers/hamburgers.min.css';
+import '../../assets/style/vendor/animsition/css/animsition.min.css';
+import '../../assets/style/vendor/select2/select2.min.css';
+import '../../assets/style/vendor/daterangepicker/daterangepicker.css';
+import '../../assets/style/fonts/font-awesome-4.7.0/css/font-awesome.min.css';
+import '../../assets/style/fonts/iconic/css/material-design-iconic-font.min.css';
+import '../../assets/style/css/util.css';
+import '../../assets/style/css/main.css';
+import '../../assets/style/css/bootstrap.min.css'
+import './index.css';
 
 import Footer from '../../components/footer/footer.js'
 import NavBar from '../../components/navbar/navbar.js'
@@ -25,7 +23,7 @@ export default class Index extends Component {
         <NavBar />
 
         <div class="container">
-          <img className="bgImg" src={require('./images/bg.jpg')} alt=""/>
+          <img className="bgImg" src={require('../../assets/style/images/bg.jpg')} alt=""/>
           <div class="jumbotron shadow text-danger text-center">
             <span><h1><strong>Delivery pra qualquer fome:<br />Peça e receba em casa</strong></h1></span>
             <br/>
@@ -50,8 +48,8 @@ export default class Index extends Component {
         <Footer />
 
         {/*<!-- Bootstrap core JavaScript -->*/}
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../../assets/style/vendor/jquery/jquery.min.js"></script>
+        <script src="../../assets/style/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
       </div>
     );
