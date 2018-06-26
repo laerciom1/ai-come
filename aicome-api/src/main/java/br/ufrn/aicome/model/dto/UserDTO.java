@@ -48,6 +48,16 @@ public class UserDTO {
 
 	}
 
+	public User toUser(){
+		User user = new User();
+		user.setId(getId());
+		user.setFirstName(getFirstName());
+		user.setLastName(getLastName());
+		user.setUsername(getUsername());
+		user.setPassword(null);
+		return user;
+	}
+
 	public Integer getId() {
 		return id;
 	}

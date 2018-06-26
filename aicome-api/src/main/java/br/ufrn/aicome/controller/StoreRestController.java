@@ -72,7 +72,7 @@ public class StoreRestController {
 	 * @return list of addresses.
 	 */
 	@GetMapping("/{storeId:[0-9]+}/addresses")
-	@ApiOperation(value = "Fetch a store menu", response = AddressDTO.class, responseContainer="List", authorizations=@Authorization("oauth2"))
+	@ApiOperation(value = "Fetch a store addresses", response = AddressDTO.class, responseContainer="List", authorizations=@Authorization("oauth2"))
 	public List<AddressDTO> getStoreAddresses(@PathVariable Integer storeId){
 		List<Address> addresses = new ArrayList<>(addressRepository.findAddressesByStoreId(storeId));
 		List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());

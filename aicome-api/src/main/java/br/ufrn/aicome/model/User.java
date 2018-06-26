@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.GenericGenerator;
 
 import br.ufrn.aicome.model.enums.Permission;
 
@@ -22,7 +23,8 @@ import br.ufrn.aicome.model.enums.Permission;
 public class User extends AbstractModel<Integer>  {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="native")
+	@GenericGenerator(name = "native", strategy = "native")
 	@Column(name="id")
 	private Integer id;
 

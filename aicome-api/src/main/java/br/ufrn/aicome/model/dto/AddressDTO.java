@@ -36,6 +36,18 @@ public class AddressDTO implements Serializable {
 		setNumber(address.getNumber());
 	}
 
+	public Address toAddress(){
+		Address address = new Address();
+		address.setId(getId());
+		address.setLat(getLat());
+		address.setLng(getLng());
+		address.setZip(getZip());
+		address.setCity(getCity());
+		address.setNeighborhood(getNeighborhood());
+		address.setStreet(getStreet());
+		address.setNumber(getNumber());
+		return address;
+	}
 
 	public Integer getId() {
 		return id;

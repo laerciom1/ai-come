@@ -2,6 +2,7 @@ package br.ufrn.aicome.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.swagger.annotations.Api;
@@ -18,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufrn.aicome.model.Address;
 import br.ufrn.aicome.model.User;
+import br.ufrn.aicome.model.dto.AddressDTO;
 import br.ufrn.aicome.model.dto.UserDTO;
 import br.ufrn.aicome.repository.AddressRepository;
 import br.ufrn.aicome.repository.UserRepository;
+import br.ufrn.aicome.service.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/users")
@@ -29,6 +32,9 @@ public class UserRestController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -62,11 +68,26 @@ public class UserRestController {
 	 * Create a user.
 	 * @return created userDTO.
 	 */
+	@PostMapping("/{userId:[0-9]+}/address")
+	@ApiOperation(value = "Create a new address to the given user", response = AddressDTO.class, authorizations=@Authorization("oauth2"))
+	public AddressDTO createUserAddress(@PathVariable Integer userId, @RequestBody AddressDTO addressDTO){
+		User user = userRepository.findById(userId).orElse(new User());
+		Address address = addressDTO.toAddress();
+		address.setUser(user);
+		addressRepository.save(address);
+		return new AddressDTO(address);
+	}
+
+	/**
+	 * Create a user.
+	 * @return created userDTO.
+	 */
 	@PostMapping("")
 	@ApiOperation(value = "Create a new user", response = UserDTO.class, authorizations=@Authorization("oauth2"))
 	public UserDTO createUser(@RequestBody UserDTO userDTO){
-		// TODO save userDTO.addresses and save userDTO.
-		return userDTO;
+		User user = userDTO.toUser();
+		userDetailsService.save(user);
+		return new UserDTO(user);
 	}
 
 }
