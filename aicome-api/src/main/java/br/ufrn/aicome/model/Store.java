@@ -17,8 +17,11 @@ public class Store extends AbstractModel<Integer> {
 	@Column(name="bio")
 	private String bio;
 
-	@Column(name="image")
-	private String image;
+	@Column(name="profile_image")
+	private String profileImage;
+
+	@Column(name="thumbnail_image")
+	private String thumbnailImage;
 
 	@ManyToOne
 	@JoinColumn(name="address_id")
@@ -54,12 +57,20 @@ public class Store extends AbstractModel<Integer> {
 		this.bio = bio;
 	}
 
-	public String getImage() {
-		return image;
+	public String getProfileImage() {
+		return profileImage;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
+	}
+
+	public String getThumbnailImage() {
+		return thumbnailImage;
+	}
+
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
 	}
 
 	public Address getAddress() {

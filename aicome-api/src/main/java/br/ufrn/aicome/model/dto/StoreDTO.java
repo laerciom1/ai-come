@@ -18,7 +18,10 @@ public class StoreDTO implements Serializable {
 	private String bio;
 
 	@ApiModelProperty(notes = "The store image URL")
-	private String image;
+	private String thumbnailImage;
+
+	@ApiModelProperty(notes = "The store profile image URL")
+	private String profileImage;
 
 	@ApiModelProperty(notes = "The store address")
 	private AddressDTO address;
@@ -33,7 +36,8 @@ public class StoreDTO implements Serializable {
 		setId(store.getId());
 		setName(store.getName());
 		setBio(store.getBio());
-		setImage(store.getImage());
+		setProfileImage(store.getProfileImage());
+		setThumbnailImage(store.getThumbnailImage());
 
 		Address address = store.getAddress();
 
@@ -68,12 +72,20 @@ public class StoreDTO implements Serializable {
 		this.bio = bio;
 	}
 
-	public String getImage() {
-		return image;
+	public String getThumbnailImage() {
+		return thumbnailImage;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public AddressDTO getAddress() {

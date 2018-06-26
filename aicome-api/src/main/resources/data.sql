@@ -7,8 +7,8 @@ insert into user_permissions (user_id, permissions) values
 insert into address (id, lat, lng, street, number, neighborhood, city, zip, active) values
 (1, 0, 0, 'Rua da Reis Magos', 'Numero da Reis Magos', 'Bairro da Reis Magos', 'Cidade da Reis Magos', 'CEP da Reis Magos', 1);
 
-insert into store (id, name, bio, image, address_id, user_id, active) values
-(1, 'Reis Magos', 'Bio da Reis Magos', 'image', 1, 1, 1);
+insert into store (id, name, bio, thumbnail_image, profile_image, address_id, user_id, active) values
+(1, 'Reis Magos', 'Bio da Reis Magos', '/static/reismagos-700x300.jpg', '/static/reismagos-200x200.jpg', 1, 1, 1);
 
 insert into taste (id, name, description, store_id, s_value, m_value, l_value, xl_value, active) values
 (1, 'Al Pesto', 'Peito de peru, mussarela de búfala e molho pesto', 1, 20.0, 30.0, 40.0, 50.0, 1),
