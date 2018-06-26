@@ -13,9 +13,9 @@ export default class Index extends Component {
         {/*<!-- Navigation -->*/}
         <NavBar />
 
-        <div class="container">
+        <div className="container">
           <img className="bgImg" src={require('../../assets/style/images/bg.jpg')} alt=""/>
-          <div class="jumbotron shadow text-danger text-center">
+          <div className="jumbotron shadow text-danger text-center">
             <span><h1><strong>Delivery pra qualquer fome:<br />Peça e receba em casa</strong></h1></span>
             <br/>
             <form className="login100-form validate-form" action="/" onSubmit={this.fazLogin}>
