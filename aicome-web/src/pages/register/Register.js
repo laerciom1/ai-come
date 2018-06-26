@@ -16,28 +16,6 @@ export default class Register extends Component {
     localStorage.setItem('USER_lastName', loginInfo.lastName)
     localStorage.setItem('username', loginInfo.login)
     this.props.history.push('/')
-    // fetch(`http://localhost:3001/login?X-AUTH-TOKEN=${localStorage.getItem('TOKEN')}`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(loginInfo)
-    // })
-    //   .then((response) => {
-    //     if (!response.ok) {
-    //       throw response.json()
-    //     }
-    //     return response.json()
-    //   })
-    //   .then((jsonResponse) => {
-    //     localStorage.setItem('TOKEN', jsonResponse.token)
-    //     localStorage.setItem('ACTUALUSER', loginInfo.login)
-    //     this.props.history.push('/')
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ hasError: true, errorMessage: "Usuario Invalido" })
-    //     //this.props.history.push({
-    //     //    pathname:'/error',
-    //     //    message: 'Usuario Invalido'
-    //     //})
-    //   })
   }
   render() {
     localStorage.removeItem('USER_firstName')

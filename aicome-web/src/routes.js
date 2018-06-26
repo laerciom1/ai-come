@@ -9,6 +9,7 @@ import Index from './pages/index/Index.js'
 import Register from './pages/register/Register.js'
 import Store from './pages/store/Store.js'
 import OrdersList from './pages/ordersList/OrdersList.js';
+import AddressRegister from './pages/addressRegister/AddressRegister.js';
 
 const history = createBrowserHistory()
 
@@ -42,6 +43,7 @@ const Routes = () => {
             <Route path='/register' component={Register} />
             <Route path='/store/:id' component={Store} />
             <Route path='/orders' component={OrdersList} />
+            <Route path='/address/new' component={AddressRegister} />
         </Switch>
     )
 };

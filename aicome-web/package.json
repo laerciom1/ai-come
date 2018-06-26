@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "google-maps-react": "^2.0.2",
     "prop-types": "^15.6.1",
     "qs": "^6.5.2",
     "rc-tabs": "^9.2.5",
     "react": "^16.4.0",
     "react-dom": "^16.4.0",
+    "react-geolocated": "^2.4.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
