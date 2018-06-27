@@ -24,6 +24,24 @@ axios.interceptors.request.use( (config) => {
 
 );
 
+axios.interceptors.response.use( (response) => {
+    return response;
+  }, (err) => {
+
+    if(err.response.status === 401){
+        console.error('Unathorized Access API - Revoking Token and Redirecting to login page');
+        localStorage.removeItem('username');
+        localStorage.removeItem('access_token');
+        history.push('/login');
+        return Promise.reject(err);
+    } else {
+        return Promise.reject(err);
+    }
+    
+  }
+
+);
+
 ReactDOM.render(
     <Provider store={reduxStore}>
         <Router history={history}>
