@@ -38,9 +38,11 @@ public class RethinkDBConnectionFactory {
      */
     @PostConstruct
     public void init() throws TimeoutException {
-        if(connection == null) {
-            logger.info("Initializing RethinkDB Configuration");
-            connection = getConnection();
+        if(enabled) {
+            if (connection == null) {
+                logger.info("Initializing RethinkDB Configuration");
+                connection = getConnection();
+            }
         }
     }
 
@@ -59,16 +61,24 @@ public class RethinkDBConnectionFactory {
      */
     public Connection getConnection() {
 
-        if(connection == null || !connection.isOpen()){
-            logger.info("Creating connection with rethinkDB at " + host + ":" + port);
-            try {
-                connection = RethinkDB.r.connection().hostname(host).port(port).connect();
-            } catch (TimeoutException e) {
-                throw new RuntimeException(e);
+        if(enabled) {
+
+            if (connection == null || !connection.isOpen()) {
+                logger.info("Creating connection with rethinkDB at " + host + ":" + port);
+                try {
+                    connection = RethinkDB.r.connection().hostname(host).port(port).connect();
+                }
+                catch (TimeoutException e) {
+                    throw new RuntimeException(e);
+                }
+                logger.info("Connected successfully with rethinkdb at " + host + ":" + port);
             }
-            logger.info("Connected successfully with rethinkdb at " + host + ":" + port);
+            else {
+                logger.info("Using previously defined connection at " + connection.hostname + ":" + connection.port);
+            }
+
         } else {
-            logger.info("Using previously defined connection at " + connection.hostname + ":" + connection.port);
+            logger.info("RethinkDB disabled");
         }
 
         return connection;

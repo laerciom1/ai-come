@@ -1,6 +1,7 @@
 package br.ufrn.aicome.config;
 
-import br.ufrn.aicome.service.UserDetailsServiceImpl;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -23,7 +25,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import br.ufrn.aicome.model.User;
+import br.ufrn.aicome.model.dto.UserDTO;
+import br.ufrn.aicome.service.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -81,8 +85,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public TokenEnhancerChain tokenEnhancerChain(){
+		TokenEnhancer userAdditionalDataEnhancer = (oAuth2AccessToken, oAuth2Authentication) -> {
+			Object principal = oAuth2Authentication.getPrincipal();
+
+			if(principal instanceof User){
+				User user = (User) principal;
+				UserDTO userDTO = new UserDTO(user);
+				userDTO.setUsername(null);
+				oAuth2AccessToken.getAdditionalInformation().put("user", userDTO);
+			}
+
+			return oAuth2AccessToken;
+		};
+
 		TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter()));
+		enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter(), userAdditionalDataEnhancer));
 		return enhancerChain;
 	}
 

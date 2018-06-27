@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import br.ufrn.aicome.model.Address;
 import br.ufrn.aicome.model.User;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO {
 
 	private Integer id;

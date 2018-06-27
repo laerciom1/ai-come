@@ -4,6 +4,9 @@ import br.ufrn.aicome.model.Address;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AddressDTO implements Serializable {
 
 	private Integer id;

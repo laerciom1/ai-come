@@ -4,12 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 
 import br.ufrn.aicome.model.Address;
 import br.ufrn.aicome.model.Store;
 import br.ufrn.aicome.model.User;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class StoreDTO implements Serializable {
 
 	@ApiModelProperty(notes = "The database generated ID")
