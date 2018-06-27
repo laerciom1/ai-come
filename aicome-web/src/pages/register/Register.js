@@ -12,15 +12,14 @@ export default class Register extends Component {
       firstName: this.inputFirstName.value,
       lastName: this.inputLastName.value
     }
-    localStorage.setItem('USER_firstName', loginInfo.firstName)
-    localStorage.setItem('USER_lastName', loginInfo.lastName)
-    localStorage.setItem('username', loginInfo.login)
-    this.props.history.push('/')
+    console.log(loginInfo)
+    this.props.history.push('/login')
   }
   render() {
-    localStorage.removeItem('USER_firstName')
-    localStorage.removeItem('USER_lastName')
-    localStorage.removeItem('username')
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('user_fname')
+    localStorage.removeItem('user_lname')
     return (
       <div className="Register">
         <div className="limiter">

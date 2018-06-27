@@ -32,7 +32,9 @@ axios.interceptors.response.use( (response) => {
 
     if(err.response.status === 401){
         console.error('Unathorized Access API - Revoking Token and Redirecting to login page');
-        localStorage.removeItem('username');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_fname');
+        localStorage.removeItem('user_lname');
         localStorage.removeItem('access_token');
         history.push('/login');
         return Promise.reject(err);

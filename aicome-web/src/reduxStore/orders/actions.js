@@ -14,8 +14,6 @@ export const load = () => {
   }
 
   export const addOrder = (order) => {
-    const ord = [order,order,order,order,order,order,order,order,order,order,order,order,order,order]
-    localStorage.setItem('order', JSON.stringify(ord))
     return {
       type: actionTypes.ADD_ORDER,
       order: order

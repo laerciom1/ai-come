@@ -26,41 +26,39 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_ITEM_CART:
       if (state.cart.storeId) {
         if (action.storeId === state.cart.storeId) {
-          const actualItemId = state.cart.actualItemId + 1
-          action.newItem = {
-            ...action.newItem,
-            id: actualItemId
-          }
+          const item = state.cart.itens.find(it => action.newItem.size.id === it.size.id
+            && action.newItem.border.id === it.border.id
+            && action.newItem.pasta.id === it.pasta.id
+            && action.newItem.taste.id === it.taste.id);
 
+          var newItens
+          var actualItemId = state.cart.actualItemId
+          if (item) {
+            newItens = state.cart.itens.map((i) => {
+              if(i.id === item.id) {
+                i.qt = i.qt + 1
+              }
+              return i
+            })
+          } else {
+            actualItemId = actualItemId + 1
+            action.newItem = {
+              ...action.newItem,
+              id: actualItemId,
+              qt: 1
+            }
+            newItens = [...state.cart.itens, action.newItem]
+          }
+          
           const newCart = {
-            ...state.cart,
             actualItemId: actualItemId,
+            itens: newItens,
+            storeId: state.cart.storeId,
+            storeName: state.cart.storeName,
             deliveryCost: 10,
             estimatedTime: "30-40 min"
           }
-
-          if (state.cart.itens) {
-            newCart.itens = [...state.cart.itens]
-          } else {
-            newCart.itens = []
-          }
-
-          const item = newCart.itens.find(it => action.newItem.size === it.size
-            && action.newItem.border.name === it.border.name
-            && action.newItem.pasta.name === it.pasta.name
-            && action.newItem.taste.name === it.taste.name);
-          if (item) {
-            item.qt = item.qt + 1;
-          } else {
-            action.newItem = {
-              ...action.newItem,
-              qt: 1
-            }
-            newCart.itens = newCart.itens.concat(action.newItem);
-          }
-
           updateCartTotalValues(newCart);
-
           return {
             ...state,
             cart: newCart

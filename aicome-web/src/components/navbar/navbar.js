@@ -31,7 +31,7 @@ export default class NavBar extends Component {
       <div>
         <li className="nav-item">
           <a className="nav-link btn bg-white text-danger dropdown-toggle"
-            onClick={this.showMenu}>Bem-vindo, <strong>{localStorage.getItem('username')}</strong></a>
+            onClick={this.showMenu}>Bem-vindo, <strong>{localStorage.getItem('user_fname')}</strong></a>
         </li>
 
         {this.state.showMenu ?
@@ -61,7 +61,7 @@ export default class NavBar extends Component {
               <li className="nav-item">
                 <a className="nav-link">Cadastre seu restaurante</a>
               </li>
-              {localStorage.getItem('username') ?
+              {localStorage.getItem('access_token') ?
                 this.renderDropDown()
                 :
                 <li className="nav-item">

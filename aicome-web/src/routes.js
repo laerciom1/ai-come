@@ -15,7 +15,7 @@ const history = createBrowserHistory()
 
 class PrivateRoute extends Component {
     estaAutenticado() {
-        if(localStorage.getItem('username')){
+        if(localStorage.getItem('access_token')){
             return true
         }
         return false

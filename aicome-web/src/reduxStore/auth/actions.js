@@ -30,9 +30,10 @@ export const login = (username, password) => {
     }
 
     axios(request).then(response => {
-      console.log(response)
       localStorage.setItem('access_token', response.data.access_token);
-      localStorage.setItem('username', username);
+      localStorage.setItem('user_id', response.data.user.id);
+      localStorage.setItem('user_fname', response.data.user.firstName);
+      localStorage.setItem('user_lname', response.data.user.lastName);
       history.push('/');
     }).catch(error => {
       console.log(error);

@@ -23,7 +23,9 @@ class Login extends Component {
 
   render() {
     localStorage.removeItem('access_token')
-    localStorage.removeItem('username')
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('user_fname')
+    localStorage.removeItem('user_lname')
     return (
       <div className="Login">
         <div className="limiter">

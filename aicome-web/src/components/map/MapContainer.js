@@ -14,7 +14,6 @@ export class MapContainer extends Component {
   }
 
   mapClicked(mapProps, map, clickEvent) {
-    console.log(clickEvent)
     this.setState({
       marker: {
         lat: clickEvent.latLng.lat(),
@@ -74,7 +73,7 @@ export class MapContainer extends Component {
         })
         this.props.addressCallback(address)
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error)
       })
   }

@@ -7,31 +7,15 @@ export const loadCart = () => {
 }
 
 export const addItemCart = (item) => {
-  const title = item.taste.name
-  const size = item.size
-  const tasteName = item.taste.name
-  const tasteDescription = item.taste.description
-  const borderName = item.border.name
   const tasteValue = item.taste[item.size.identifier + 'Value']
   const borderValue = item.border.value
-  const pastaName = item.pasta.name
   const pastaValue = item.pasta.value
   const newItem = {
-    title: title,
-    size: size,
-    taste: {
-      name: tasteName,
-      description: tasteDescription,
-      value: tasteValue
-    },
-    border: {
-      name: borderName,
-      value: borderValue
-    },
-    pasta: {
-      name: pastaName,
-      value: pastaValue
-    },
+    title: item.taste.name,
+    size: item.size,
+    taste: item.taste,
+    border: item.border,
+    pasta: item.pasta,
     totalValue: borderValue + pastaValue + tasteValue
   }
   return {
