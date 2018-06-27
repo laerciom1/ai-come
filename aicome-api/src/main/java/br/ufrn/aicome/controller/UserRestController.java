@@ -59,7 +59,7 @@ public class UserRestController {
 	@ApiOperation(value = "Fetch a user with the given id", response = UserDTO.class, authorizations=@Authorization("oauth2"))
 	public UserDTO getUser(@PathVariable Integer userId) {
 		User user = userRepository.findById(userId).orElse(new User());
-		List<Address> addresses = addressRepository.findAddressesByStoreId(userId);
+		List<Address> addresses = addressRepository.findAddressesByUserId(userId);
 		UserDTO userDTO = new UserDTO(user, addresses);
 		return userDTO;
 	}
@@ -76,6 +76,19 @@ public class UserRestController {
 		address.setUser(user);
 		addressRepository.save(address);
 		return new AddressDTO(address);
+	}
+
+	/**
+	 * Returns the user addresses.
+	 * @param userId the store id.
+	 * @return list of addresses.
+	 */
+	@GetMapping("/{userId:[0-9]+}/addresses")
+	@ApiOperation(value = "Fetch user addresses", response = AddressDTO.class, responseContainer="List", authorizations=@Authorization("oauth2"))
+	public List<AddressDTO> getUserAddresses(@PathVariable Integer userId){
+		List<Address> addresses = new ArrayList<>(addressRepository.findAddressesByUserId(userId));
+		List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());
+		return addressesDto;
 	}
 
 	/**
