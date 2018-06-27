@@ -1,27 +1,36 @@
 package br.ufrn.aicome.rethinkdb;
 
-import java.util.List;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-public class DbInitializer implements InitializingBean {
+import java.util.List;
+import java.util.logging.Logger;
+
+@Component
+public class RethinkDBInitializer implements InitializingBean {
+
+    /**
+     * RethinkDB instance.
+     */
+    private static final RethinkDB r = RethinkDB.r;
+
+    /**
+     * Logger instance.
+     */
+    private Logger logger = Logger.getLogger(RethinkDBInitializer.class.getName());
+
+    /**
+     * Connection Factory.
+     */
     @Autowired
     private RethinkDBConnectionFactory connectionFactory;
 
-    private static final RethinkDB r = RethinkDB.r;
-
     @Override
     public void afterPropertiesSet() throws Exception {
-        createDb();
-    }
-
-    private void createDb() {
-        Connection connection = connectionFactory.createConnection();
-        
+        Connection connection = connectionFactory.getConnection();
         List<String> dbList = r.dbList().run(connection);
         if (!dbList.contains("chat")) {
             r.dbCreate("chat").run(connection);
@@ -31,7 +40,10 @@ public class DbInitializer implements InitializingBean {
             r.db("chat").tableCreate("messages").run(connection);
             r.db("chat").table("messages").indexCreate("time").run(connection);
         }
-        System.err.println("foi");
+
+        logger.info("RethinkDB Database Initialized successfully");
     }
+
+
 }
 
