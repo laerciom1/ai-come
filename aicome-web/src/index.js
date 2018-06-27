@@ -16,6 +16,8 @@ axios.interceptors.request.use( (config) => {
     if(token != null) {
         config.headers.Authorization = `Bearer ${token}`;
     }
+
+    config.headers['Content-Type'] = 'application/json;charset=UTF-8';
   
     return config;
   }, (err) => {
