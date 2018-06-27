@@ -30,6 +30,7 @@ export const login = (username, password) => {
     }
 
     axios(request).then(response => {
+      console.log(response)
       localStorage.setItem('access_token', response.data.access_token);
       localStorage.setItem('username', username);
       history.push('/');

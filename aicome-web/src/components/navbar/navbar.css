@@ -19,3 +19,13 @@ nav {
 .pagination {
   margin-bottom: 15px;
 }
+
+/**/
+.dd-menu {
+  border-radius:4px;
+  box-shadow:none;
+  margin-top:20px;
+  width:180px;
+  position: absolute;
+  text-align: center;
+}
