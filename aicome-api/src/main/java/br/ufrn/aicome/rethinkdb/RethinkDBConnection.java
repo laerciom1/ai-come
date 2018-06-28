@@ -2,7 +2,7 @@ package br.ufrn.aicome.rethinkdb;
 
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -11,21 +11,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 @Component
-public class RethinkDBConnectionFactory {
+public class RethinkDBConnection {
 
-    @Value("${rethinkdb.host}")
-    private String host;
-
-    @Value("${rethinkdb.port}")
-    private int port;
-
-    @Value("${rethinkdb.enabled}")
-    private boolean enabled;
+    @Autowired
+    private RethinkDBConfig config;
 
     /**
      * Logger instance.
      */
-    private Logger logger = Logger.getLogger(RethinkDBConnectionFactory.class.getName());
+    private Logger logger = Logger.getLogger(RethinkDBConnection.class.getName());
 
     /**
      * Holds the actual connection available.
@@ -38,7 +32,7 @@ public class RethinkDBConnectionFactory {
      */
     @PostConstruct
     public void init() throws TimeoutException {
-        if(enabled) {
+        if(config.isEnabled()) {
             if (connection == null) {
                 logger.info("Initializing RethinkDB Configuration");
                 connection = getConnection();
@@ -61,17 +55,12 @@ public class RethinkDBConnectionFactory {
      */
     public Connection getConnection() {
 
-        if(enabled) {
+        if(config.isEnabled()) {
 
             if (connection == null || !connection.isOpen()) {
-                logger.info("Creating connection with rethinkDB at " + host + ":" + port);
-                try {
-                    connection = RethinkDB.r.connection().hostname(host).port(port).connect();
-                }
-                catch (TimeoutException e) {
-                    throw new RuntimeException(e);
-                }
-                logger.info("Connected successfully with rethinkdb at " + host + ":" + port);
+                logger.info("Creating connection with rethinkDB at " + config.getHost() + ":" + config.getPort());
+                connection = RethinkDB.r.connection().hostname(config.getHost()).port(config.getPort()).connect();
+                logger.info("Connected successfully with rethinkdb at " + config.getHost() + ":" + config.getPort());
             }
             else {
                 logger.info("Using previously defined connection at " + connection.hostname + ":" + connection.port);

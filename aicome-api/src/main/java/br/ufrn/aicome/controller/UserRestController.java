@@ -1,10 +1,14 @@
 package br.ufrn.aicome.controller;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import br.ufrn.aicome.model.Order;
+import br.ufrn.aicome.model.dto.OrderDTO;
+import br.ufrn.aicome.repository.OrderRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
@@ -38,6 +42,9 @@ public class UserRestController {
 
 	@Autowired
 	private AddressRepository addressRepository;
+
+	@Autowired
+	private OrderRepository orderRepository;
 
 	/**
 	 * Returns the list of users.
@@ -80,7 +87,7 @@ public class UserRestController {
 
 	/**
 	 * Returns the user addresses.
-	 * @param userId the store id.
+	 * @param userId the user id.
 	 * @return list of addresses.
 	 */
 	@GetMapping("/{userId:[0-9]+}/addresses")
@@ -89,6 +96,19 @@ public class UserRestController {
 		List<Address> addresses = new ArrayList<>(addressRepository.findAddressesByUserId(userId));
 		List<AddressDTO> addressesDto = addresses.stream().map(AddressDTO::new).collect(Collectors.toList());
 		return addressesDto;
+	}
+
+	/**
+	 * Returns the user orders.
+	 * @param userId the user id.
+	 * @return list of orders.
+	 */
+	@GetMapping("/{userId:[0-9]+}/orders")
+	@ApiOperation(value = "Fetch user orders", response = OrderDTO.class, responseContainer="List", authorizations=@Authorization("oauth2"))
+	public List<OrderDTO> getUserOrders(@PathVariable Integer userId, Principal principal){
+		List<Order> orders = new ArrayList<>(orderRepository.findUserOrders(principal.getName()));
+		List<OrderDTO> ordersDto = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
+		return ordersDto;
 	}
 
 	/**

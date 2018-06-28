@@ -24,32 +24,37 @@ public class RethinkDBInitializer implements InitializingBean {
     private Logger logger = Logger.getLogger(RethinkDBInitializer.class.getName());
 
     /**
-     * Tells if rethinkdb is enabled.
+     * RethinkDB Configuration.
      */
-    @Value("${rethinkdb.enabled}")
-    private boolean enabled;
+    @Autowired
+    private RethinkDBConfig rethinkDBConfig;
 
     /**
      * Connection Factory.
      */
     @Autowired
-    private RethinkDBConnectionFactory connectionFactory;
+    private RethinkDBConnection rethinkDBConnection;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        if(enabled) {
-            Connection connection = connectionFactory.getConnection();
-            List<String> dbList = r.dbList().run(connection);
-            if (!dbList.contains("chat")) {
-                r.dbCreate("chat").run(connection);
-            }
-            List<String> tables = r.db("chat").tableList().run(connection);
-            if (!tables.contains("messages")) {
-                r.db("chat").tableCreate("messages").run(connection);
-                r.db("chat").table("messages").indexCreate("time").run(connection);
-            }
+        if(rethinkDBConfig.isEnabled()) {
 
-            logger.info("RethinkDB Database Initialized successfully");
+            try (Connection connection = rethinkDBConnection.getConnection()) {
+
+                List<String> dbList = r.dbList().run(connection);
+                if (!dbList.contains("aicome")) {
+                    r.dbCreate("aicome").run(connection);
+                }
+
+                List<String> tables = r.db("aicome").tableList().run(connection);
+                if (!tables.contains("orders")) {
+                    r.db("aicome").tableCreate("orders").run(connection);
+                    r.db("aicome").table("orders").indexCreate("time").run(connection);
+                }
+
+                logger.info("RethinkDB Database Initialized successfully");
+
+            }
 
         }
     }
