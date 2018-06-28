@@ -1,27 +1,18 @@
 package br.ufrn.aicome.controller;
 
-import br.ufrn.aicome.changefeed.OrderChangeFeed;
-import br.ufrn.aicome.model.Order;
-import br.ufrn.aicome.model.dto.AddressDTO;
-import br.ufrn.aicome.model.dto.OrderDTO;
-import br.ufrn.aicome.model.dto.OrderReceiptDTO;
-import br.ufrn.aicome.repository.OrderRepository;
+import java.security.Principal;
+
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
-import java.util.Random;
+import br.ufrn.aicome.changefeed.OrderChangeFeed;
 
 /**
  * Controller to manage things related to orders.
@@ -49,8 +40,8 @@ public class OrderRestController {
     @SubscribeMapping("/orders")
     public void onSubscribeOrders(Principal principal){
 
-        orderChangeFeed.onUserOrdersChange(principal.getName(), (object) -> {
-            messagingTemplate.convertAndSendToUser(principal.getName(), "/topic/orders", object);
+        orderChangeFeed.onUserOrdersChange(principal.getName(), (newOrder) -> {
+            messagingTemplate.convertAndSendToUser(principal.getName(), "/topic/orders", newOrder);
         });
 
     }

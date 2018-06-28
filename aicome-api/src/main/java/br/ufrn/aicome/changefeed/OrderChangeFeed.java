@@ -1,10 +1,12 @@
 package br.ufrn.aicome.changefeed;
 
+import br.ufrn.aicome.model.Order;
 import br.ufrn.aicome.rethinkdb.RethinkDBConnection;
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Consumer;
@@ -28,17 +30,19 @@ public class OrderChangeFeed {
      * @param username
      * @param callback
      */
+    @Async
     public void onUserOrdersChange(String username, Consumer<Object> callback){
 
         try (Connection connection = rethinkDBConnection.getConnection()) {
 
-            Cursor cursor = RethinkDB.r.db("aicome")
+            Cursor<Order> cursor = RethinkDB.r.db("aicome")
                     .table("orders")
                     .filter(r.row("username").eq(username))
-                    .changes().run(connection);
+                    .changes().run(connection, Order.class);
 
-            for (Object change : cursor) {
-                callback.accept(change);
+            while(cursor.hasNext()){
+                Order order = cursor.next();
+                callback.accept(order);
             }
 
         }

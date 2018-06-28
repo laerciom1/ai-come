@@ -1,18 +1,19 @@
 package br.ufrn.aicome.repository;
 
-import br.ufrn.aicome.model.Order;
-import br.ufrn.aicome.rethinkdb.RethinkDBConfig;
-import br.ufrn.aicome.rethinkdb.RethinkDBConnection;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import com.rethinkdb.RethinkDB;
 import com.rethinkdb.net.Connection;
 import com.rethinkdb.net.Cursor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
+import br.ufrn.aicome.model.Order;
+import br.ufrn.aicome.rethinkdb.RethinkDBConfig;
+import br.ufrn.aicome.rethinkdb.RethinkDBConnection;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
@@ -72,21 +73,26 @@ public class OrderRepositoryImpl implements OrderRepository {
         if(rethinkDBConfig.isEnabled()) {
 
             try (Connection connection = rethinkDBConnection.getConnection()) {
-                Cursor<Map<String, Object>> cursor = RethinkDB.r.db("aicome")
+                Cursor<Order> cursor = RethinkDB.r.db("aicome")
                         .table("orders")
                         .filter(row -> row.g("username").eq(username))
-                        .run(connection);
+                        .run(connection, Order.class);
 
                 List<Order> orders = new ArrayList<>();
-                for (Map<String, Object> row : cursor) {
-                    Order order = new Order();
-                    order.setTotal((Double) row.get("total"));
-                    order.setSubTotal((Double) row.get("subtotal"));
-                    order.setEstimatedTime((String) row.get("estimatedTime"));
-                    order.setDeliveryCost((Double) row.get("deliveryCost"));
-                    // TODO add the remain complex attributes
-                    orders.add(order);
+
+                while(cursor.hasNext()){
+                    orders.add(cursor.next());
                 }
+
+//                for (Map<String, Object> row : cursor) {
+//                    Order order = new Order();
+//                    order.setTotal((Double) row.get("total"));
+//                    order.setSubTotal((Double) row.get("subtotal"));
+//                    order.setEstimatedTime((String) row.get("estimatedTime"));
+//                    order.setDeliveryCost((Double) row.get("deliveryCost"));
+//                    // TODO add the remain complex attributes
+//                    orders.add(order);
+//                }
 
                 return orders;
             }
