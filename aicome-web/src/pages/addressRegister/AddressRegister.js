@@ -134,6 +134,9 @@ class AddressRegister extends Component {
               <button type="submit" className="btn btn-danger" onClick={this.saveAddress}>Save</button>
             </div>
           </div>
+          <br />
+          <br />
+          
         </div>
         <Footer />
         {/* CSS */}
