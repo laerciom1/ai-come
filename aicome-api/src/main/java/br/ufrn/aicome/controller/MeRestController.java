@@ -32,7 +32,7 @@ import br.ufrn.aicome.repository.UserRepository;
 @RestController
 @RequestMapping("/me")
 @Api(tags="Me", value="me", description="Operations pertaining to the current authenticated user", authorizations=@Authorization("oauth2"))
-public class UserRestController {
+public class MeRestController {
 
 	@Autowired
 	private UserRepository userRepository;
