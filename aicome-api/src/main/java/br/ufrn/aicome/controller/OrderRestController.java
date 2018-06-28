@@ -27,7 +27,6 @@ import java.util.Random;
  * Controller to manage things related to orders.
  */
 @RestController
-@RequestMapping("/orders")
 @Api(tags="Orders", value="order", description="Operations pertaining to orders", authorizations=@Authorization("oauth2"))
 public class OrderRestController {
 
@@ -42,34 +41,6 @@ public class OrderRestController {
      */
 	@Autowired
     private OrderChangeFeed orderChangeFeed;
-
-    /**
-     * Order Repository
-     */
-    @Autowired
-	private OrderRepository orderRepository;
-
-	/**
-	 * Register a new order.
-	 * @return created order.
-	 */
-	@PostMapping("")
-	@ApiOperation(value = "Register a new order from the current user", response = AddressDTO.class, authorizations=@Authorization("oauth2"))
-	public OrderReceiptDTO registerOrder(@RequestBody OrderDTO orderDTO, Principal principal){
-        orderDTO.setUsername(principal.getName());
-
-	    Order order = orderDTO.toOrder();
-        orderRepository.save(order);
-
-        OrderReceiptDTO orderReceipt = new OrderReceiptDTO();
-		orderReceipt.setOrder(orderDTO);
-		orderReceipt.setConfirmationId(new Random().nextLong());
-		orderReceipt.setEstimatedTime(new Random().nextLong());
-
-		messagingTemplate.convertAndSend("/topic/stores/order", orderDTO); //TODO adjusment to send it only to the specific store
-
-		return orderReceipt;
-	}
 
     /**
      * Method that subscribes to the orders.

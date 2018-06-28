@@ -4,10 +4,12 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import br.ufrn.aicome.model.Order;
 import br.ufrn.aicome.model.dto.OrderDTO;
+import br.ufrn.aicome.model.dto.OrderReceiptDTO;
 import br.ufrn.aicome.repository.OrderRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -109,6 +111,26 @@ public class UserRestController {
 		List<Order> orders = new ArrayList<>(orderRepository.findUserOrders(principal.getName()));
 		List<OrderDTO> ordersDto = orders.stream().map(OrderDTO::new).collect(Collectors.toList());
 		return ordersDto;
+	}
+
+	/**
+	 * Register a new order.
+	 * @return created order.
+	 */
+	@PostMapping("/{userId:[0-9]+}/order")
+	@ApiOperation(value = "Register a new order from the current user", response = AddressDTO.class, authorizations=@Authorization("oauth2"))
+	public OrderReceiptDTO registerOrder(@RequestBody OrderDTO orderDTO, Principal principal){
+		orderDTO.setUsername(principal.getName());
+
+		Order order = orderDTO.toOrder();
+		orderRepository.save(order);
+
+		OrderReceiptDTO orderReceipt = new OrderReceiptDTO();
+		orderReceipt.setOrder(orderDTO);
+		orderReceipt.setConfirmationId(new Random().nextLong());
+		orderReceipt.setEstimatedTime(new Random().nextLong());
+
+		return orderReceipt;
 	}
 
 	/**
