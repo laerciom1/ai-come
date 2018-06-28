@@ -22,7 +22,7 @@ insert into address (id, lat, lng, street, number, neighborhood, city, zip, user
 (5, -5.8322834, -35.2075895, 'Av. Cap.Mor Gouveia', 'S/n', 'Lagoa Nova', 'Natal', '59078-970', 3, 1),
 (6, -5.7293424, -35.2446444, 'Av. Dr. Juliano Moreira', '675', 'Pajuçara', 'Natal', '59131-430', 4, 1),
 (7, -23.6473866, -46.7143856, 'R. Adele', '210', 'Jardim Dom Bosco', 'São Paulo', '04757-050', 2, 1),
-(8, -5.8898204, -35.200246, 'Av. Ayrton Senna', '12', 'Nova Parnamirim', 'Natal', '59080-100', 2, 1);
+(8, -5.8898204, -35.200246, 'Av. Ayrton Senna', '12', 'Nova Parnamirim', 'Natal', '59080-100', 6, 1);
 
 insert into store (id, name, bio, thumbnail_image, profile_image, user_id, active) values
 (1, 'Reis Magos', 'Bio da Reis Magos', '/static/stores/1-700x300.jpg', '/static/stores/1-200x200.jpg', 5, 1),

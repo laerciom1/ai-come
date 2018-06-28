@@ -30,6 +30,12 @@ class AddressRegister extends Component {
     })
   }
 
+  componentDidMount() {
+    if (this.props.location.state.addressId) {
+      console.log(this.props.location.state)
+    }
+  }
+
   render() {
     return (
       <div className="AddressRegister">

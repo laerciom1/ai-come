@@ -1,9 +1,19 @@
-import * as actionTypes from './actionTypes.js'
+import * as config from '../../config'
+import * as actionTypes from './actionTypes'
+import axios from 'axios'
 
-export const load = () => {
-  return {
-    type: actionTypes.LOAD_ADDRESSES,
-    addresses: []
+export const load = (user_id) => {
+  return dispatch => {
+    axios.get(config.API_URL + `/users/${user_id}/addresses`)
+    .then(response => {
+      dispatch({
+        type: actionTypes.LOAD_ADDRESSES,
+        addresses: response.data
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    })
   }
 }
 
