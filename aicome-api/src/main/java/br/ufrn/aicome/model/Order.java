@@ -15,7 +15,7 @@ import java.util.List;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="order")
+@Table(name="order_request")
 public class Order extends AbstractModel<Long> {
 
     @Id

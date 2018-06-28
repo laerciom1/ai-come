@@ -53,26 +53,10 @@ class AddressRegister extends Component {
   }
 
   saveAddress() {
-    const basicAuth = {
-      username: config.CLIENT_ID,
-      password: config.CLIENT_SECRET
-    }
-
     const payloadData = this.state.address
 
-    const headerData = {
-      'content-type': 'application/json'
-    }
-
-    const request = {
-      method: 'PUT',
-      headers: headerData,
-      auth: basicAuth,
-      data: qs.stringify(payloadData),
-      url: `${config.API_URL}/me/addresses/${this.state.address.id}`
-    }
-
-    axios(request).then(response => {
+    axios.put(config.API_URL + `/me/addresses/${this.state.address.id}`, payloadData)
+    .then(response => {
       this.props.history.push('/addresses')
     }).catch(error => {
       console.log(error);
