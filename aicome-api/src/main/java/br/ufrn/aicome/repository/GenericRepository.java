@@ -43,11 +43,15 @@ public interface GenericRepository<T extends AbstractModel<PK>,PK extends Serial
 		// TODO Auto-generated method stub
 		deleteById(arg0.getId());
 	}
+
+	@Modifying
+	@Query(value = "delete from #{#entityName} where id = ?1", nativeQuery = true)
+	void deleteFromDatabaseById(PK arg0);
 	
 	@Override
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE #{#entityName} SET active=false where id = ?1", nativeQuery = true)
+	@Query(value = "update #{#entityName} set active=false where id = ?1", nativeQuery = true)
 	void deleteById(PK arg0);
 
 	@Override

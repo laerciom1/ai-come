@@ -17,7 +17,7 @@ class AddressesList extends Component {
   }
 
   componentDidMount() {
-    this.props.loadAddresses(localStorage.getItem('user_id'))
+    this.props.loadAddresses()
   }
 
   removeAddress(addressId) {
@@ -97,7 +97,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadAddresses: (user_id) => dispatch(addressesActions.load(user_id)),
+    loadAddresses: () => dispatch(addressesActions.load()),
     removeAddress: (addresId) => dispatch(addressesActions.removeAddress(addresId))
   }
 }

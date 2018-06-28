@@ -2,9 +2,9 @@ import * as config from '../../config'
 import * as actionTypes from './actionTypes'
 import axios from 'axios'
 
-export const load = (user_id) => {
+export const load = () => {
   return dispatch => {
-    axios.get(config.API_URL + `/users/${user_id}/addresses`)
+    axios.get(config.API_URL + `/me/addresses`)
     .then(response => {
       dispatch({
         type: actionTypes.LOAD_ADDRESSES,
