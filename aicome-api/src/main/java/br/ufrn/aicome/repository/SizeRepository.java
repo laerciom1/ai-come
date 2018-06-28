@@ -9,6 +9,6 @@ import java.util.List;
 public interface SizeRepository extends GenericRepository<Size, Integer> {
 
     @Query("select s from Size s where s.store.id = :storeId")
-    public List<Size> findSizesByStoreId(@Param("storeId") Integer storeId);
+    public List<Size> findSizesByStoreId(@Param("storeId") Long storeId);
 
 }

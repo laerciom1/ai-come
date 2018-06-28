@@ -15,7 +15,7 @@ import br.ufrn.aicome.model.User;
 public class StoreDTO implements Serializable {
 
 	@ApiModelProperty(notes = "The database generated ID")
-	private Integer id;
+	private Long id;
 
 	@ApiModelProperty(notes = "The store name")
 	private String name;
@@ -60,11 +60,11 @@ public class StoreDTO implements Serializable {
 
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

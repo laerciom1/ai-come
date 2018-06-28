@@ -3,9 +3,11 @@ package br.ufrn.aicome.model.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import br.ufrn.aicome.model.enums.Permission;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthDTO implements Serializable {
 
 	private String username;

@@ -114,26 +114,6 @@ public class UserRestController {
 	}
 
 	/**
-	 * Register a new order.
-	 * @return created order.
-	 */
-	@PostMapping("/{userId:[0-9]+}/order")
-	@ApiOperation(value = "Register a new order from the current user", response = AddressDTO.class, authorizations=@Authorization("oauth2"))
-	public OrderReceiptDTO registerOrder(@RequestBody OrderDTO orderDTO, Principal principal){
-		orderDTO.setUsername(principal.getName());
-
-		Order order = orderDTO.toOrder();
-		orderRepository.save(order);
-
-		OrderReceiptDTO orderReceipt = new OrderReceiptDTO();
-		orderReceipt.setOrder(orderDTO);
-		orderReceipt.setConfirmationId(new Random().nextLong());
-		orderReceipt.setEstimatedTime(new Random().nextLong());
-
-		return orderReceipt;
-	}
-
-	/**
 	 * Create a user.
 	 * @return created userDTO.
 	 */

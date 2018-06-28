@@ -80,9 +80,11 @@ public class OrderRepositoryImpl implements OrderRepository {
                 List<Order> orders = new ArrayList<>();
                 for (Map<String, Object> row : cursor) {
                     Order order = new Order();
-                    order.setStoreId((Long) row.get("storeId"));
-                    order.setUsername((String) row.get("username"));
-                    order.setComments((String) row.get("comments"));
+                    order.setTotal((Double) row.get("total"));
+                    order.setSubTotal((Double) row.get("subtotal"));
+                    order.setEstimatedTime((String) row.get("estimatedTime"));
+                    order.setDeliveryCost((Double) row.get("deliveryCost"));
+                    // TODO add the remain complex attributes
                     orders.add(order);
                 }
 

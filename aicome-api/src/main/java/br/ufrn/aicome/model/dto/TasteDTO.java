@@ -33,6 +33,18 @@ public class TasteDTO implements Serializable {
 		setXlValue(taste.getXlValue());
 	}
 
+	public Taste toTaste(){
+		Taste taste = new Taste();
+		taste.setId(getId());
+		taste.setName(getName());
+		taste.setDescription(getDescription());
+		taste.setsValue(getsValue());
+		taste.setmValue(getmValue());
+		taste.setlValue(getlValue());
+		taste.setXlValue(getXlValue());
+		return taste;
+	}
+
 	public Integer getId() {
 		return id;
 	}

@@ -9,6 +9,6 @@ import java.util.List;
 public interface PastaRepository extends GenericRepository<Pasta, Integer> {
 
     @Query("select p from Pasta p where p.store.id = :storeId")
-    public List<Pasta> findPastasByStoreId(@Param("storeId") Integer storeId);
+    public List<Pasta> findPastasByStoreId(@Param("storeId") Long storeId);
 
 }

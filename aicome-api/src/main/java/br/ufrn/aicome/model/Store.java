@@ -14,13 +14,13 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="store")
-public class Store extends AbstractModel<Integer> {
+public class Store extends AbstractModel<Long> {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
 	@Column(name="id")
-	private Integer id;
+	private Long id;
 
 	@Column(name="name")
 	private String name;
@@ -39,12 +39,12 @@ public class Store extends AbstractModel<Integer> {
 	private User user;
 
 	@Override
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
 	@Override
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

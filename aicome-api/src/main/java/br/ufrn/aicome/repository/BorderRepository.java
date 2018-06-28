@@ -9,6 +9,6 @@ import java.util.List;
 public interface BorderRepository extends GenericRepository<Border, Integer> {
 
     @Query("select b from Border b where b.store.id = :storeId")
-    public List<Border> findBordersByStoreId(@Param("storeId") Integer storeId);
+    public List<Border> findBordersByStoreId(@Param("storeId") Long storeId);
 
 }

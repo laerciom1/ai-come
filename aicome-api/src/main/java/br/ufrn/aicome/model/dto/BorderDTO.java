@@ -21,6 +21,14 @@ public class BorderDTO implements Serializable {
 		setValue(border.getValue());
 	}
 
+	public Border toBorder(){
+		Border border = new Border();
+		border.setId(getId());
+		border.setName(getName());
+		border.setValue(getValue());
+		return border;
+	}
+
 	public Integer getId() {
 		return id;
 	}

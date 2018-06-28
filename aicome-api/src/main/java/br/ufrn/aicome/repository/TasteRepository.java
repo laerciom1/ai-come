@@ -9,7 +9,7 @@ import java.util.List;
 public interface TasteRepository extends GenericRepository<Taste, Integer> {
 
     @Query("select t from Taste t where t.store.id = :storeId")
-    public List<Taste> findTastesByStoreId(@Param("storeId") Integer storeId);
+    public List<Taste> findTastesByStoreId(@Param("storeId") Long storeId);
 
 
 }

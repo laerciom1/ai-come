@@ -16,6 +16,14 @@ public class SizeDTO {
         setIdentifier(size.getIdentifier());
     }
 
+    public Size toSize(){
+        Size size = new Size();
+        size.setId(getId());
+        size.setName(getName());
+        size.setIdentifier(getIdentifier());
+        return size;
+    }
+
     public Integer getId() {
         return id;
     }

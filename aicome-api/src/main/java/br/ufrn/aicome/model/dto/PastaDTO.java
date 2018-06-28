@@ -21,6 +21,14 @@ public class PastaDTO implements Serializable {
 		setValue(pasta.getValue());
 	}
 
+	public Pasta toPasta(){
+		Pasta pasta = new Pasta();
+		pasta.setId(getId());
+		pasta.setName(getName());
+		pasta.setValue(getValue());
+		return pasta;
+	}
+
 	public Integer getId() {
 		return id;
 	}

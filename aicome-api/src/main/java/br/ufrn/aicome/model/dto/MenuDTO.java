@@ -1,15 +1,15 @@
 package br.ufrn.aicome.model.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class MenuDTO implements Serializable {
 
 	@ApiModelProperty(notes = "The store ID in database")
-	private Integer storeId;
+	private Long storeId;
 
 	@ApiModelProperty(notes = "The tastes available")
 	private List<TasteDTO> tastes;
@@ -31,11 +31,11 @@ public class MenuDTO implements Serializable {
 		this.sizes = new ArrayList<>();
 	}
 
-	public Integer getStoreId() {
+	public Long getStoreId() {
 		return storeId;
 	}
 
-	public void setStoreId(Integer storeId) {
+	public void setStoreId(Long storeId) {
 		this.storeId = storeId;
 	}
 

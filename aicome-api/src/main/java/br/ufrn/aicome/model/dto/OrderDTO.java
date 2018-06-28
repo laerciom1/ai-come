@@ -1,56 +1,101 @@
 package br.ufrn.aicome.model.dto;
 
-import br.ufrn.aicome.model.Order;
-
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import br.ufrn.aicome.model.Order;
+import br.ufrn.aicome.model.OrderItem;
+import br.ufrn.aicome.model.Store;
+import br.ufrn.aicome.model.User;
 
 public class OrderDTO implements Serializable {
 
-	private Long storeId;
+	private List<OrderItemDTO> itens;
 
-	private String username;
+	private Double deliveryCost;
 
-	private String comments;
+	private String estimatedTime;
+
+	private Double subTotal;
+
+	private Double total;
 
 	public OrderDTO(){
 
 	}
 
 	public OrderDTO(Order order){
-		setStoreId(order.getStoreId());
-		setUsername(order.getUsername());
-		setComments(order.getComments());
+		this(order, null);
 	}
 
-	public Order toOrder(){
+	public OrderDTO(Order order, List<OrderItem> orderItens){
+		if(orderItens != null){
+			List<OrderItemDTO> orderItensDto = orderItens.stream().map(OrderItemDTO::new).collect(Collectors.toList());
+			setItens(orderItensDto);
+		}
+
+		setDeliveryCost(order.getDeliveryCost());
+		setEstimatedTime(order.getEstimatedTime());
+		setSubTotal(order.getSubTotal());
+		setTotal(order.getTotal());
+	}
+
+	public Order toOrder(Store store, User user){
+		return toOrder(store, user, null);
+	}
+
+	public Order toOrder(Store store, User user, List<OrderItem> itens){
 		Order order = new Order();
-		order.setStoreId(getStoreId());
-		order.setUsername(getUsername());
-		order.setComments(getComments());
+		order.setStore(store);
+		order.setUser(user);
+		if(itens != null) {
+			order.setItens(itens);
+		}
+		order.setDeliveryCost(getDeliveryCost());
+		order.setEstimatedTime(getEstimatedTime());
+		order.setSubTotal(getSubTotal());
+		order.setTotal(getTotal());
 		return order;
 	}
 
-	public Long getStoreId() {
-		return storeId;
+	public List<OrderItemDTO> getItens() {
+		return itens;
 	}
 
-	public void setStoreId(Long storeId) {
-		this.storeId = storeId;
+	public void setItens(List<OrderItemDTO> itens) {
+		this.itens = itens;
 	}
 
-	public String getUsername() {
-		return username;
+	public Double getDeliveryCost() {
+		return deliveryCost;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setDeliveryCost(Double deliveryCost) {
+		this.deliveryCost = deliveryCost;
 	}
 
-	public String getComments() {
-		return comments;
+	public String getEstimatedTime() {
+		return estimatedTime;
 	}
 
-	public void setComments(String comments) {
-		this.comments = comments;
+	public void setEstimatedTime(String estimatedTime) {
+		this.estimatedTime = estimatedTime;
+	}
+
+	public Double getSubTotal() {
+		return subTotal;
+	}
+
+	public void setSubTotal(Double subTotal) {
+		this.subTotal = subTotal;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 }
