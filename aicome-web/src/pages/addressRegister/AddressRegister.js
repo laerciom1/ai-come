@@ -30,12 +30,6 @@ class AddressRegister extends Component {
     })
   }
 
-  componentDidMount() {
-    if (this.props.location.state.addressId) {
-      console.log(this.props.location.state)
-    }
-  }
-
   render() {
     return (
       <div className="AddressRegister">
@@ -90,6 +84,9 @@ class AddressRegister extends Component {
               <button type="submit" className="btn btn-danger">Save</button>
             </div>
           </div>
+          <br />
+          <br />
+          
         </div>
         <Footer />
         {/* CSS */}

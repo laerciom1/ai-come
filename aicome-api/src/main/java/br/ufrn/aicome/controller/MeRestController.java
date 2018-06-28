@@ -65,6 +65,18 @@ public class MeRestController {
 	}
 
 	/**
+	 * Returns the user addresses.
+	 * @return the address with the given id.
+	 */
+	@GetMapping("/addresses/{addressId:[0-9]+}")
+	@ApiOperation(value = "Fetch the addresses by id", response = AddressDTO.class, authorizations=@Authorization("oauth2"))
+	public AddressDTO getUserAddresses(@PathVariable("addressId") Integer addressId, Principal principal){
+		User user = userRepository.findByUsername(principal.getName()).orElse(new User());
+		Address address = addressRepository.findById(addressId).orElse(new Address());
+		return new AddressDTO(address);
+	}
+
+	/**
 	 * Create a user address.
 	 * @return created userDTO.
 	 */

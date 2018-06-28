@@ -13,7 +13,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="order_item")
-public class OrderItem {
+public class OrderItem extends AbstractModel<Integer> {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="native")
