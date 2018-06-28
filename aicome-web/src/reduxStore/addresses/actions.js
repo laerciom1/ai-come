@@ -2,14 +2,18 @@ import * as config from '../../config'
 import * as actionTypes from './actionTypes'
 import axios from 'axios'
 
+export const setAddresses = (addresses) => {
+  return {
+    type: actionTypes.LOAD_ADDRESSES,
+    addresses: addresses
+  }
+}
+
 export const load = () => {
   return dispatch => {
     axios.get(config.API_URL + `/me/addresses`)
     .then(response => {
-      dispatch({
-        type: actionTypes.LOAD_ADDRESSES,
-        addresses: response.data
-      });
+      dispatch(setAddresses(response.data));
     })
     .catch(error => {
       console.error(error);

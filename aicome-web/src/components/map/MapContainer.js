@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { Map, Marker, GoogleApiWrapper } from 'google-maps-react'
 
+const apiKey = 'AIzaSyDHPPJZhwkqPfC-waP7HW_NzRqCYqDUNoE'
 export class MapContainer extends Component {
-  constructor() {
-    super()
+
+  constructor(props) {
+    super(props)
     this.state = {
       marker: {
-        lat: -5.8339954,
-        lng: -35.2098009
-      }
+        lat: props.lat ? props.lat : 0,
+        lng: props.lng ? props.lng : 0
+      },
+      addressId: props.addressId
     }
     this.mapClicked = this.mapClicked.bind(this);
   }
@@ -20,10 +23,10 @@ export class MapContainer extends Component {
         lng: clickEvent.latLng.lng()
       }
     })
-
     var address = {
-      lat: 0,
-      lng: 0,
+      id: this.state.addressId,
+      lat: this.state.marker.lat,
+      lng: this.state.marker.lng,
       street: '',
       number: '',
       neighborhood: '',
@@ -31,7 +34,7 @@ export class MapContainer extends Component {
       zip: ''
     }
 
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.marker.lat},${this.state.marker.lng}&sensor=false`)
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${this.state.marker.lat},${this.state.marker.lng}&result_type=street_address&key=${apiKey}`)
       .then((response) => {
         if (!response.ok) {
           throw response.json()
@@ -39,39 +42,46 @@ export class MapContainer extends Component {
         return response.json()
       })
       .then((jsonResponse) => {
-        const addressComponents = jsonResponse.results[0].address_components
-        addressComponents.forEach(addressComponent => {
-          const types = addressComponent.types
-          types.forEach(type => {
-            if (type === 'street_number') { //number
-              address = {
-                ...address,
-                number: addressComponent.long_name
+        if (jsonResponse.status === 'OK') {
+          address = {
+            ...address,
+            lat: jsonResponse.results[0].geometry.location.lat,
+            lng: jsonResponse.results[0].geometry.location.lng
+          }
+          const addressComponents = jsonResponse.results[0].address_components
+          addressComponents.forEach(addressComponent => {
+            const types = addressComponent.types
+            types.forEach(type => {
+              if (type === 'street_number') { //number
+                address = {
+                  ...address,
+                  number: addressComponent.long_name
+                }
+              } else if (type === 'route' || type === 'premise') { //street
+                address = {
+                  ...address,
+                  street: addressComponent.long_name
+                }
+              } else if (type === 'sublocality') { //neighborhood
+                address = {
+                  ...address,
+                  neighborhood: addressComponent.long_name
+                }
+              } else if (type === 'locality') { //city
+                address = {
+                  ...address,
+                  city: addressComponent.long_name
+                }
+              } else if (type === 'postal_code') { //zip
+                address = {
+                  ...address,
+                  zip: addressComponent.long_name
+                }
               }
-            } else if (type === 'route') { //street
-              address = {
-                ...address,
-                street: addressComponent.long_name
-              }
-            } else if (type === 'sublocality') { //neighborhood
-              address = {
-                ...address,
-                neighborhood: addressComponent.long_name
-              }
-            } else if (type === 'locality') { //city
-              address = {
-                ...address,
-                city: addressComponent.long_name
-              }
-            } else if (type === 'postal_code') { //zip
-              address = {
-                ...address,
-                zip: addressComponent.long_name
-              }
-            }
+            })
           })
-        })
-        this.props.addressCallback(address)
+          this.props.addressCallback(address)
+        }
       })
       .catch(error => {
         console.log(error)
@@ -92,12 +102,13 @@ export class MapContainer extends Component {
         }}
         zoom={18}
         onClick={this.mapClicked} >
-        <Marker position={{ lat: this.state.marker.lat, lng: this.state.marker.lng }} />
+        <Marker position={{ lat: this.props.lat ? this.props.lat : this.state.marker.lat,
+                            lng: this.props.lng ? this.props.lng : this.state.marker.lng }} />
       </Map>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyDHPPJZhwkqPfC-waP7HW_NzRqCYqDUNoE')
+  apiKey: (apiKey)
 })(MapContainer)

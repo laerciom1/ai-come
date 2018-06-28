@@ -6,13 +6,12 @@ import '../../assets/style/css/main.css';
 export default class Register extends Component {
   fazRegistro = (event) => {
     event.preventDefault()
-    const loginInfo = {
-      login: this.inputLogin.value,
-      senha: this.inputPass.value,
-      firstName: this.inputFirstName.value,
-      lastName: this.inputLastName.value
-    }
-    console.log(loginInfo)
+    // const loginInfo = {
+    //   login: this.inputLogin.value,
+    //   senha: this.inputPass.value,
+    //   firstName: this.inputFirstName.value,
+    //   lastName: this.inputLastName.value
+    // }
     this.props.history.push('/login')
   }
   render() {

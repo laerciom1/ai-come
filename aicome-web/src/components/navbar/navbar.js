@@ -21,9 +21,9 @@ export default class NavBar extends Component {
   }
 
   closeMenu() {
-      this.setState({ showMenu: false }, () => {
-        document.removeEventListener('click', this.closeMenu);
-      });
+    this.setState({ showMenu: false }, () => {
+      document.removeEventListener('click', this.closeMenu);
+    });
   }
 
   renderDropDown() {

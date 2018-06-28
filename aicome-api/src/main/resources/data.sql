@@ -15,14 +15,14 @@ insert into user_permissions (user_id, permissions) values
 (6, 'USER');
 
 insert into address (id, lat, lng, street, number, neighborhood, city, zip, user_id, active) values
-(1, -5.8617787, -35.2178965, 'Avenida Aírton Sena', '32B', 'Nova Parnamirim', 'Parnamirim', '59451-160', 5, 1),
-(2, -5.8668027, -35.244155, 'Av. Engenheiro Roberto Freire', '1236', 'Capim Macio', 'Natal', '59082-055', 5, 1),
-(3, -5.8264643, -35.2252665, 'Av. Amintas Barros', '2561', 'Lagoa Nova', 'Natal', '59054-465', 5, 1),
-(4, -23.5606492, -46.6858194, 'R. Dr. Virgílio de Carvalho Pinto', '648', 'Pinheiros', 'São Paulo', '05415-020', 2, 1),
-(5, -5.8322834, -35.2075895, 'Av. Cap.Mor Gouveia', 'S/n', 'Lagoa Nova', 'Natal', '59078-970', 3, 1),
-(6, -5.7293424, -35.2446444, 'Av. Dr. Juliano Moreira', '675', 'Pajuçara', 'Natal', '59131-430', 4, 1),
-(7, -23.6473866, -46.7143856, 'R. Adele', '210', 'Jardim Dom Bosco', 'São Paulo', '04757-050', 2, 1),
-(8, -5.8898204, -35.200246, 'Av. Ayrton Senna', '12', 'Nova Parnamirim', 'Natal', '59080-100', 6, 1);
+(1, -5.889547, -35.199178, 'Avenida Ayrton Senna', '1806', 'Nova Parnamirim', 'Natal', '59080-101', 6, 1),
+(2, -5.855755, -35.198963, 'RN-063', '1236', 'Capim Macio', 'Natal', '59078-600', 5, 1),
+(3, -5.816962, -35.218493, 'Avenida Amintas Barros', '2545', 'Lagoa Nova', 'Natal', '59062-350', 5, 1),
+(4, -5.833621, -35.218292, 'Avenida Prudente de Morais', '5979', 'Candelária', 'Natal', '59065-305', 5, 1),
+(5, -23.560416, -46.685673, 'Rua Doutor Virgílio de Carvalho Pinto', '648', 'Pinheiros', 'São Paulo', '05415-020', 2, 1),
+(6, -5.831872, -35.205188, 'Anel Viário do Campus', '3763', 'Lagoa Nova', 'Natal', '59076', 3, 1),
+(7, -5.729550, -35.243985, 'Avenida Doutor Juliano Moreira', '665', 'Pajuçara', 'Natal', '59131-430', 4, 1),
+(8, -23.650879, -46.718270, 'Rua Adele', '210', 'Santo Amaro', 'São Paulo', '04757-050', 2, 1);
 
 insert into store (id, name, bio, thumbnail_image, profile_image, user_id, active) values
 (1, 'Reis Magos', 'Bio da Reis Magos', '/static/stores/1-700x300.jpg', '/static/stores/1-200x200.jpg', 5, 1),

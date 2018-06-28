@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { geolocated } from 'react-geolocated'
+import qs from 'qs';
+import axios from 'axios'
+
+import * as config from '../../config'
 
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'
@@ -13,6 +17,7 @@ class AddressRegister extends Component {
     super()
     this.state = {
       address: {
+        id: 0,
         lat: 0,
         lng: 0,
         street: '',
@@ -22,18 +27,56 @@ class AddressRegister extends Component {
         zip: ''
       }
     }
+    this.saveAddress = this.saveAddress.bind(this)
   }
 
   setAddress = (address) => {
     this.setState({
-      address
+      address: {
+        ...address
+      }
     })
   }
 
   componentDidMount() {
-    if (this.props.location.state.addressId) {
-      console.log(this.props.location.state)
+    if (this.props.location.state) {
+      const addressId = this.props.location.state.addressId
+      axios.get(config.API_URL + `/me/addresses`)
+        .then(response => {
+          const address = response.data.find((a) => a.id === addressId)
+          this.setAddress(address, true)
+        })
+        .catch(error => {
+          console.error(error);
+        })
     }
+  }
+
+  saveAddress() {
+    const basicAuth = {
+      username: config.CLIENT_ID,
+      password: config.CLIENT_SECRET
+    }
+
+    const payloadData = this.state.address
+
+    const headerData = {
+      'content-type': 'application/json'
+    }
+
+    const request = {
+      method: 'PUT',
+      headers: headerData,
+      auth: basicAuth,
+      data: qs.stringify(payloadData),
+      url: `${config.API_URL}/me/addresses/${this.state.address.id}`
+    }
+
+    axios(request).then(response => {
+      this.props.history.push('/addresses')
+    }).catch(error => {
+      console.log(error);
+    })
   }
 
   render() {
@@ -45,9 +88,10 @@ class AddressRegister extends Component {
             <h1 className="my-4">Cadastre seu endereço <small>_</small></h1>
             {this.props.coords ?
               <div className="col-md-12 map">
-                <MapContainer lat={this.props.coords.latitude}
-                  lng={this.props.coords.longitude}
+                <MapContainer lat={this.state.address.lat !== 0 ? this.state.address.lat : this.props.coords.latitude}
+                  lng={this.state.address.lng !== 0 ? this.state.address.lng : this.props.coords.longitude}
                   addressCallback={this.setAddress}
+                  addressId={this.state.address.id}
                 />
               </div>
               :
@@ -64,30 +108,30 @@ class AddressRegister extends Component {
             </div>
             <label className="col-md-1 control-label">Número</label>
             <div className="col-md-2">
-              <input  type="text" placeholder="Número" className="form-control" value={this.state.address.number} 
-                      onChange={(event) => this.setState({address: {...this.state.address, number: event.target.value}})} />
+              <input type="text" placeholder="Número" className="form-control" value={this.state.address.number}
+                onChange={(event) => this.setState({ address: { ...this.state.address, number: event.target.value } })} />
             </div>
           </div>
           <br />
           <div className="row form-line">
             <label className="col-md-1 control-label">Bairro</label>
             <div className="col-md-3">
-              <input type="text" placeholder="Bairro" className="form-control" value={this.state.address.neighborhood} disabled/>
+              <input type="text" placeholder="Bairro" className="form-control" value={this.state.address.neighborhood} disabled />
             </div>
             <label className="col-md-1 control-label" >Cidade</label>
             <div className="col-md-3">
-              <input type="text" placeholder="Cidade" className="form-control" value={this.state.address.city} disabled/>
+              <input type="text" placeholder="Cidade" className="form-control" value={this.state.address.city} disabled />
             </div>
             <label className="col-md-1 control-label" >CEP</label>
             <div className="col-md-3">
-              <input type="text" placeholder="CEP" className="form-control" value={this.state.address.zip} disabled/>
+              <input type="text" placeholder="CEP" className="form-control" value={this.state.address.zip} disabled />
             </div>
           </div>
           <br />
           <div className="row form-line">
             <div className="col-md-12">
               <button type="submit" className="btn btn-default">Cancel</button>
-              <button type="submit" className="btn btn-danger">Save</button>
+              <button type="submit" className="btn btn-danger" onClick={this.saveAddress}>Save</button>
             </div>
           </div>
         </div>
