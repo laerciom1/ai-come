@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { geolocated } from 'react-geolocated'
-import qs from 'qs';
-import axios from 'axios'
+import axios from '../../axios/api'
 
-import * as config from '../../config'
 
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'
@@ -41,7 +39,7 @@ class AddressRegister extends Component {
   componentDidMount() {
     if (this.props.location.state) {
       const addressId = this.props.location.state.addressId
-      axios.get(config.API_URL + `/me/addresses`)
+      axios.get('/me/addresses')
         .then(response => {
           const address = response.data.find((a) => a.id === addressId)
           this.setAddress(address, true)
@@ -55,10 +53,10 @@ class AddressRegister extends Component {
   saveAddress() {
     const payloadData = this.state.address
 
-    axios.put(config.API_URL + `/me/addresses/${this.state.address.id}`, payloadData)
-    .then(response => {
-      this.props.history.push('/addresses')
-    }).catch(error => {
+    axios.put(`/me/addresses/${this.state.address.id}`, payloadData)
+    .then(() => {
+        this.props.history.push('/addresses');
+      }).catch(error => {
       console.log(error);
     })
   }

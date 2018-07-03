@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom';
 import * as config from '../../config';
 
-import * as storesActions from '../../reduxStore/stores/actions.js'
+import * as storesActions from '../../redux/stores/actions.js'
 
 import './home.css';
 

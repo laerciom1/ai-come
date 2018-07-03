@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import * as config from '../../config';
 
-import * as storesActions from '../../reduxStore/stores/actions.js'
-import * as cartActions from '../../reduxStore/cart/actions.js'
+import * as storesActions from '../../redux/stores/actions.js'
+import * as cartActions from '../../redux/cart/actions.js'
 
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'

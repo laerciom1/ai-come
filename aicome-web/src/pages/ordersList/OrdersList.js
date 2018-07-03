@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types'
 
-import * as ordersActions from '../../reduxStore/orders/actions.js'
+import * as ordersActions from '../../redux/orders/actions.js'
 
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'

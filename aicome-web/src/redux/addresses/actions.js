@@ -1,6 +1,5 @@
-import * as config from '../../config'
 import * as actionTypes from './actionTypes'
-import axios from 'axios'
+import axios from '../../axios/api'
 
 export const setAddresses = (addresses) => {
   return {
@@ -11,7 +10,7 @@ export const setAddresses = (addresses) => {
 
 export const load = () => {
   return dispatch => {
-    axios.get(config.API_URL + `/me/addresses`)
+    axios.get('/me/addresses')
     .then(response => {
       dispatch(setAddresses(response.data));
     })

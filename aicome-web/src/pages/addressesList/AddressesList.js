@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import * as addressesActions from '../../reduxStore/addresses/actions.js'
+import * as addressesActions from '../../redux/addresses/actions.js'
 
 import NavBar from '../../components/navbar/navbar.js'
 import Footer from '../../components/footer/footer.js'

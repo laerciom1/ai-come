@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import * as cartActions from '../../reduxStore/cart/actions.js'
-import * as ordersActions from '../../reduxStore/orders/actions.js'
+import * as cartActions from '../../redux/cart/actions.js'
+import * as ordersActions from '../../redux/orders/actions.js'
 import emptyCart from '../../assets/empty-cart/cart-empty.png'
 
 class Cart extends Component {

@@ -1,6 +1,5 @@
-import * as config from '../../config'
 import * as actionTypes from './actionTypes'
-import axios from 'axios'
+import axios from '../../axios/api'
 
 export const setStores = (stores) => {
   return {
@@ -18,7 +17,7 @@ export const setActualStore = (store) => {
 
 export const loadActualStore = (storeId) => {
   return (dispatch) => {
-    axios.get(config.API_URL + '/stores/' + storeId)
+    axios.get('/stores/' + storeId)
     .then(response => {
       dispatch(setActualStore(response.data));
     })
@@ -30,7 +29,7 @@ export const loadActualStore = (storeId) => {
 
 export const loadStores = () => {
   return dispatch => {
-    axios.get(config.API_URL + '/stores')
+    axios.get('/stores')
     .then(response => {
       dispatch(setStores(response.data));
     })
